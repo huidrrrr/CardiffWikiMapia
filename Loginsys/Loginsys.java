@@ -7,6 +7,7 @@ import java.lang.StringBuffer;
 import java.util.Random;
 public class Loginsys {
     public static void main(String args[]){
+        // start 
         Map<String, String> users = new HashMap<String, String>();
         try {
             Scanner scan = new Scanner(new File("users.txt"));
