@@ -2,15 +2,26 @@ import React, { Component } from 'react'
 
 export default class App extends Component {
     state={
-        list:['aa','bb','cc']
+      list:[{
+        id:1,
+        content:"aa",
+      },
+      {
+        id:2,
+        content:"bb",
+      },
+      {
+        id:3,
+        content:"cc",
+      }]
     }
   render() {
-    var newlist=this.state.list.map(item=><li key={item}>{item}</li>)
     return (
       <div>
           <ul>
             {
-               newlist
+               this.state.list.map((item,index)=>
+                <li key={item.key}> {item.content}</li>)
             }
           </ul>
       </div>
