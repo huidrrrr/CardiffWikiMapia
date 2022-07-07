@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Gantari:ital@1&family=Open+Sans:wght@300&family=Roboto:wght@100&display=swap');
+.header{
+    width: 100%;
+    height: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #4e0010;
+    padding: 0 10%;
+
+}
+.header h1{
+    color: white;
+    font-family: 'Gantari', sans-serif;
+}
+
+
+
+.header ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: baseline;
+
+}
+.header li{
+    margin-left: 3rem;
+
+}
+
+
+.header a{
+    text-decoration: none;
+    font-size: 1.5rem;
+    color: #fcb8d2;
+
+}
+
+.header a:hover,
+.header a:active,
+.header a.active{
+    color: white;
+}
+.logo{
+    font-size: 2rem;
+    color: white;
+    font-weight: bold;
+}
+
+.badge{
+    background-color: #c31f40;
+    color: white;
+    border-radius: 12px;
+    padding: 0 1rem;
+    margin-left: 0.5rem;
+}

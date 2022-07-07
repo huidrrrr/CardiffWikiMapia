@@ -66,4 +66,5 @@ export default class App extends Component {
       current: index,
     });
   }
+  
 }

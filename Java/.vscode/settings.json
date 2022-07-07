@@ -1,6 +1,7 @@
 {
     "java.project.sourcePaths": [
         "task1",
-        "AAT"
+        "AAT",
+        "testFile"
     ]
 }

@@ -1,0 +1,77 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  padding: 5rem;
+  background-color: #dfdfdf;
+}
+h1,
+h2 {
+  color: #333333;
+}
+
+.actions {
+  text-align: right;
+}
+
+.card {
+  background-color: white;
+  padding: 1rem;
+  width: 20rem;
+  border-radius: 4px;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.2);
+}
+.btn {
+  font: inherit;
+  padding: 0.5rem 1.5rem;
+  cursor: pointer;
+  border-radius: 4px;
+  background-color: #d9006c;
+  color: white;
+  border: 1px solid #bb015e;
+  margin: 0 1rem;
+}
+
+.btn:hover {
+  background-color: #9c1458;
+  border-color: #9c1458;
+}
+.btn--alt {
+  background-color: transparent;
+  color: #800040;
+}
+.btn--alt:hover {
+  background-color: #f8dae9;
+}
+
+.modal {
+  position: absolute;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  background-color: white;
+  padding: 1rem;
+  text-align: center;
+  width: 30rem;
+  z-index: 10;
+  margin: 0 auto;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+}
+.modal p {
+  margin: 1rem;
+}
+.backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  background-color: #4d4d4d3b;
+}
