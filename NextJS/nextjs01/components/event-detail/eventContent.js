@@ -1,7 +1,7 @@
 import React from 'react'
-
-export default function EventContent() {
+import styles from './eventContent.module.css'
+export default function EventContent(props) {
   return (
-    <div>eventContent</div>
+    <div  className={styles.content}>{props.children}</div>
   )
 }

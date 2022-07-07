@@ -1,11 +1,12 @@
 import React from "react";
 import AddressIcon from "../icons/addressIcon";
+import CalenderIcon from "../icons/calenderIcon";
 import styles from "./eventLogistics.module.css";
 import LogisticsItem from "./logisticsItem";
 
 export default function EventLogistics(props) {
-  const { date, address, image, imageAlt } = props;
-
+  const { date, location, image, imageAlt } = props;
+  const formattedAddress = location.replace(", ", "\n");
   const humanReadableDate = new Date(date).toLocaleDateString("en-US", {
     day: "numeric",
     month: "long",
@@ -18,11 +19,11 @@ export default function EventLogistics(props) {
         <img src={`/${image}`} alt={imageAlt} />
       </div>
       <ul className={styles.list}>
-        <LogisticsItem icon={DateIcon}>
+        <LogisticsItem icon={CalenderIcon}>
           <time>{humanReadableDate}</time>
         </LogisticsItem>
         <LogisticsItem icon={AddressIcon}>
-            <address>{address}</address>
+          <address>{formattedAddress}</address>
         </LogisticsItem>
       </ul>
     </section>

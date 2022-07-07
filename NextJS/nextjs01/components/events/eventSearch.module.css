@@ -1,0 +1,55 @@
+.form {
+  display: flex;
+  width: 40rem;
+  height: 4rem;
+  background-color: white;
+  margin: 1rem auto;
+  padding: 0.5rem;
+  border-radius: 8px;
+}
+
+.form .controls {
+  display: flex;
+  gap: 0.7rem;
+}
+
+.form .controls .control {
+  flex: 1;
+  display: flex;
+  gap: 0.7rem;
+}
+
+.form .controls .control label {
+  height: max-content;
+  margin: 0.8rem 0;
+}
+
+.form .controls .control select {
+  width: 10rem;
+  border-radius: 8px;
+  height: 2rem;
+  margin: auto;
+  outline: none;
+}
+
+.form .btn{
+    text-decoration: none;
+    cursor: pointer;
+    font: inherit;
+    background-color: #03be9f;
+    border: 1px solid #03be9f;
+    border-radius: 6px;
+    color: #dafff7;
+    text-align: center;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+    padding: 0.1rem 1.5rem;
+    margin: auto 0.5rem auto auto !important;
+    height: 2.3rem;
+}
+
+.btn:hover,
+.btn:active{
+    background-color: #02afa1;
+    border-color: #02afa1;
+    
+}

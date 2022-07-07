@@ -2,7 +2,7 @@ const DUMMY_DATA = [
   {
     id: "e1",
     title: "Programming for everyone",
-    description: "This is for everyone",
+    description: "Programming is the process of creating a set of instructions that tell a computer how to perform a task. Programming can be done using a variety of computer programming languages, such as JavaScript, Python, and C++. Created by Pamela Fox.",
     location: "New Port Road, building 21 flat 14 room B112",
     date: "2022-04-08",
     image: "images/programming-event.jpg",
@@ -37,7 +37,7 @@ export function getAllEvents() {
 }
 
 export const getFilteredEvents = (dateFilter) => {
-  const { year, month } = dateFliter;
+  const { year, month } = dateFilter;
   let filteredEvents = DUMMY_DATA.filter((event) => {
     const eventDate = new Date(event.date);
     return (
