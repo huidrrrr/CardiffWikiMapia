@@ -4,6 +4,8 @@ const gasLitreCost = 1.5;
 const litreCostKM = litresPerKM * gasLitreCost;
 const secondsPerDay = 60 * 60 * 24;
 
+
+
 type DistanceProps = {
   leg: google.maps.DirectionsLeg;
 };

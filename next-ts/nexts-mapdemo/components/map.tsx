@@ -32,14 +32,13 @@ export default function Map() {
     []
   );
   const onLoad = useCallback((map: any) => (mapRef.current = map), []);
-  const houses = useMemo(
-    () => generateHouses(office ? office : center),
-    [office, center]
-  );
+  // const houses = useMemo(
+  //   () => generateHouses(office ? office : center),
+  //   [office, center]
+  // );
 
   const fetchDirections = (house: LatLngLiteral) => {
-    console.log("house data is :" + house);
-    console.log("office data is :" + office);
+
 
     if (!office) return;
 
@@ -110,7 +109,7 @@ export default function Map() {
             <>
               <Marker position={office} icon={icon} />
 
-              <MarkerClusterer>
+              {/* <MarkerClusterer>
                 {(clusterer) =>
                   houses.map((house: LatLngLiteral) => (
                     <Marker
@@ -123,11 +122,11 @@ export default function Map() {
                     />
                   ))
                 }
-              </MarkerClusterer>
+              </MarkerClusterer> */}
 
-              <Circle center={office} radius={500} options={closeOptions} />
+              {/* <Circle center={office} radius={500} options={closeOptions} />
               <Circle center={office} radius={1000} options={middleOption} />
-              <Circle center={office} radius={1500} options={farOption} />
+              <Circle center={office} radius={1500} options={farOption} /> */}
             </>
           )}
         </GoogleMap>
