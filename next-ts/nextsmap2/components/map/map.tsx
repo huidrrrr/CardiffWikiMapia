@@ -9,8 +9,6 @@ import {
 import Places from "./places";
 import Distance from "./distance";
 import NewMarkers from "../marks/newMarkers";
-import { getAllEvents } from "../helper/apiUtil";
-import axios from "axios";
 import styles from "../../styles/Map.module.css";
 
 type LatLngLiteral = google.maps.LatLngLiteral;
@@ -19,26 +17,14 @@ type MapOptions = google.maps.MapOptions;
 
 export default function Map(props: any) {
   const [office, setOffice] = useState<LatLngLiteral>();
-  const [eventsData, setEventsData] = useState<any>([]);
   const [destination, setDestination] = useState<LatLngLiteral>();
   const [directions, setDirections] = useState<DirectionsResult>();
   const mapRef = useRef<GoogleMap>();
 
-  useEffect(() => {
-    axios({
-      method: "GET",
-      url: "https://nextjs-dummydb-61545-default-rtdb.firebaseio.com/marks.json",
-    }).then((res) => {
-      const events: any = [];
-      for (const key in res.data) {
-        events.push({
-          id: key,
-          ...res.data[key],
-        });
-        setEventsData(events);
-      }
-    });
-  }, []);
+  const { placesData } = props;
+  const [eventsData, setEventsData] = useState<any>(placesData);
+
+
 
   const center = useMemo<LatLngLiteral>(
     () => ({ lat: 51.4837, lng: -3.1681 }),
@@ -144,7 +130,7 @@ export default function Map(props: any) {
             <>
               <Marker position={office} icon={homeIcon} />
 
-              {
+              {eventsData && (
                 <MarkerClusterer>
                   {(clusterer) =>
                     eventsData.map((event: any) => (
@@ -160,7 +146,7 @@ export default function Map(props: any) {
                     ))
                   }
                 </MarkerClusterer>
-              }
+              )}
 
               <Circle center={office} radius={500} options={closeOptions} />
               <Circle center={office} radius={1000} options={middleOptions} />
@@ -170,6 +156,7 @@ export default function Map(props: any) {
           {destination && (
             <>
               <Marker
+                icon={eventIcon}
                 position={destination}
                 onClick={() => {
                   fetchDirections(destination);
@@ -212,28 +199,3 @@ const farOptions = {
   strokeColor: "#FF5252",
   fillColor: "#FF5252",
 };
-
-// const generateHouses = (position: LatLngLiteral) => {
-//   const _houses: Array<LatLngLiteral> = [];
-//   for (let i = 0; i < 100; i++) {
-//     const direction = Math.random() < 0.5 ? -2 : 2;
-//     _houses.push({
-//       lat: position.lat + Math.random() / direction,
-//       lng: position.lng + Math.random() / direction,
-//     });
-//   }
-//   return _houses;
-// };
-
-// export async function getStaticProps() {
-
-//   const events = await getAllEvents();
-//   console.log("got data");
-
-//   return {
-//     props: {
-//       events: events,
-//     },
-//     revalidate: 1800,
-//   };
-// }
