@@ -1,11 +1,10 @@
-import React, { FC } from "react";
-import { Button } from "antd";
-import styles from "../styles/Home.module.css";
-import Link from "next/link";
-
+import React from "react";
+import Test from '../components/test'
+import { getAllPlaces } from "../components/helper/apiUtil";
+import BrowseMap from "../components/map/browseMap";
 export default function Home() {
-  return(
-  <div>
-    <Link href="/map">To map</Link>
-  </div>)
+
+  return <div> 
+    <Test/>
+  </div>;
 }

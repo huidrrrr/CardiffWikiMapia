@@ -1,0 +1,27 @@
+.formDiv{
+    display: flex;
+    flex-direction: column;
+}
+
+
+.smallDiv{
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    
+}
+.labelDiv{
+    flex: 1;
+}
+
+.inputDiv{
+    flex: 1;
+    color: black;
+}
+
+.action{
+    color: black;
+    width: 7rem;
+    align-items: end;
+    margin-left: auto;
+}

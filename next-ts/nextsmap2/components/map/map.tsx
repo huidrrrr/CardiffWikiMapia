@@ -6,10 +6,13 @@ import {
   Circle,
   MarkerClusterer,
 } from "@react-google-maps/api";
-import Places from "./places";
 import Distance from "./distance";
+import PlaceDetailCard from "../places/placeDetailCard/placeDetailCard";
+import BrowsePlaceSideBar from "../mapSideBar/browsePlaceSideBar";
+import Places from "./places";
 import NewMarkers from "../marks/newMarkers";
 import styles from "../../styles/Map.module.css";
+import AddPlaceSideBar from "../mapSideBar/addPlaceSideBar";
 
 type LatLngLiteral = google.maps.LatLngLiteral;
 type DirectionsResult = google.maps.DirectionsResult;
@@ -19,12 +22,11 @@ export default function Map(props: any) {
   const [office, setOffice] = useState<LatLngLiteral>();
   const [destination, setDestination] = useState<LatLngLiteral>();
   const [directions, setDirections] = useState<DirectionsResult>();
+  const [placeDetail, setPlaceDetail] = useState<any>();
   const mapRef = useRef<GoogleMap>();
 
-  const { placesData } = props;
-  const [eventsData, setEventsData] = useState<any>(placesData);
-
-
+  const { places } = props;
+  const [eventsData, setEventsData] = useState<any>(places);
 
   const center = useMemo<LatLngLiteral>(
     () => ({ lat: 51.4837, lng: -3.1681 }),
@@ -34,7 +36,7 @@ export default function Map(props: any) {
     () => ({
       mapId: "7f4dd82f5e97eadb",
       disableDefaultUI: false,
-      clickableIcons: true,
+      clickableIcons: false,
     }),
     []
   );
@@ -58,6 +60,10 @@ export default function Map(props: any) {
     );
   };
 
+  const showDetail = (event: any) => {
+    setPlaceDetail(event);
+  };
+
   const homeIcon = {
     url: "/icons/home.svg", // url
     scaledSize: new google.maps.Size(30, 30), // scaled size
@@ -71,39 +77,42 @@ export default function Map(props: any) {
     origin: new google.maps.Point(0, 0), // origin
     // anchor: new google.maps.Point(0, 0) // anchor
   };
+  const h3Style = { color: "white" };
+
   return (
     <div className="container">
       <div className="controls">
-        <h1>Commute?</h1>
-        <div className={styles.inputPlace}>
-          <h3>Home</h3>
-          <Places
-            setOffice={(position) => {
+        
+          <BrowsePlaceSideBar
+            setOffice={(position: any) => {
               setOffice(position);
               mapRef.current?.panTo(position);
             }}
           />
-        </div>
-        <div className={styles.inputPlace}>
-          <h3>Destination</h3>
-          <Places
-            setOffice={(position) => {
-              setDestination(position);
-              mapRef.current?.panTo(position);
-            }}
-          />
-        </div>
+        
+        {directions  && <Distance leg={directions.routes[0].legs[0]} />}
+        {placeDetail  && <PlaceDetailCard placeDetail={placeDetail} />}
+        {/* {pageName === "addPlacePage" && (
+          <div className={styles.inputPlace}>
+            <h3 style={h3Style}>Destination</h3>
+            <AddPlaceSideBar
+              setOffice={(position: any) => {
+                setDestination(position);
+                mapRef.current?.panTo(position);
+              }}
+            />
+          </div>
+        )} */}
+        {!office && <p>Enter the address you want to.</p>}
 
-        {!office && <p>Enter the address of your office.</p>}
-        {directions && <Distance leg={directions.routes[0].legs[0]} />}
-        {destination && (
+        {/* {destination && pageName === "addPlacePage" && (
           <NewMarkers
             position={destination}
             setEventsData={(events: any) => {
               setEventsData(events);
             }}
           />
-        )}
+        )} */}
       </div>
       <div className="map">
         <GoogleMap
@@ -137,10 +146,15 @@ export default function Map(props: any) {
                       <Marker
                         key={event.id}
                         position={event.position}
-                        icon={eventIcon}
+                        icon={{
+                          url: "/icons/" + event.category + ".svg", // url
+                          scaledSize: new google.maps.Size(30, 30), // scaled size
+                          origin: new google.maps.Point(0, 0), // origin
+                        }}
                         clusterer={clusterer}
                         onClick={() => {
                           fetchDirections(event.position);
+                          showDetail(event);
                         }}
                       />
                     ))

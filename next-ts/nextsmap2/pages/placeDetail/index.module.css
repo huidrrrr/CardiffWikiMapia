@@ -1,0 +1,12 @@
+.detailBox{
+    display: flex;
+    gap: 1rem;
+}
+.content{
+    margin: 0 auto;
+    width: 68rem;
+    box-shadow: rgb(0 0 0 / 24%) 0px 3px 8px;
+    padding: 2rem;
+    background-color: #f7f7f7;
+
+}

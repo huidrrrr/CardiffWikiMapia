@@ -1,0 +1,10 @@
+.HeaderBlock {
+  background-color: rgb(214, 202, 202);
+  height: 7rem;
+}
+
+.logo {
+  margin: 0;
+  padding: 2rem ;
+  padding-left: 7rem ;
+}

@@ -1,0 +1,17 @@
+.imgBox {
+  margin-bottom: 1rem;
+  overflow: hidden;
+
+}
+.verticalBox {
+  display: flex;
+  flex-direction: row;
+}
+.horizontalBox {
+  display: flex;
+  flex-direction: column;
+}
+.placeInfo {
+  align-items: end;
+  margin-left: auto;
+}

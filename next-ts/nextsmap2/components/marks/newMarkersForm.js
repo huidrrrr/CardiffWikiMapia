@@ -1,6 +1,6 @@
 import React from "react";
 import { useRef } from "react";
-
+import styles from './newMarkersForm.module.css'
 export default function NewMarkersForm(props) {
   const nameInputRef = useRef();
   const timeInputRef = useRef();
@@ -17,20 +17,22 @@ export default function NewMarkersForm(props) {
     props.onAddMarker(markerTextData);
   }
 
+  
+  
 
   return (
     <div>
-      <form onSubmit={submitHandler}>
-        <div>
-          <label htmlFor="name">Event Name</label>
-          <input type="text" required id="name" ref={nameInputRef} />
+      <form className={styles.formDiv} onSubmit={submitHandler}>
+        <div className={styles.smallDiv}>
+          <label className={styles.labelDiv} htmlFor="name">Event Name</label>
+          <input className={styles.inputDiv} type="text" required id="name" ref={nameInputRef} />
         </div>
-        <div>
-          <label htmlFor="date">Event Date</label>
-          <input type="datetime-local" required id="name" ref={timeInputRef} />
+        <div className={styles.smallDiv}>
+          <label className={styles.labelDiv} htmlFor="date">Event Date</label>
+          <input className={styles.inputDiv} type="datetime-local" required id="name" ref={timeInputRef} />
         </div>
 
-        <button>Add Event</button>
+        <button className={styles.action}>Add Event</button>
       </form>
     </div>
   );

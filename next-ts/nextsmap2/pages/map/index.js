@@ -1,22 +1,16 @@
-import { useLoadScript } from "@react-google-maps/api";
-import Map from "../../components/map/map";
+import MapPage from "../../components/map/mapPage";
 import { getAllPlaces } from "../../components/helper/apiUtil";
 
-export default function MapPage(props) {
-  const { places } = props;
-  
-  const { isLoaded } = useLoadScript({
-    googleMapsApiKey: "AIzaSyD0EITvU6aSQn9zF8fSXHQ5Dd0MjF5Q7aI",
-    libraries: ["places"],
-  });
-
-  if (!isLoaded) return <div>Loading...</div>;
-  return <Map placesData={places}/>;
+export default function MapTestPage(props) {
+  const {places} = props;
+  return (
+    <MapPage places={places}></MapPage>
+  )
 }
 
 export async function getStaticProps() {
   const places = await getAllPlaces();
-
+  
   return {
     props: {
       places: places,

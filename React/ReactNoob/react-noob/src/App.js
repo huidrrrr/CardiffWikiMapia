@@ -1,12 +1,12 @@
 import Todo from './components/Todo'
 import Modal from './components/Modal'
 import BackDrop from './components/BackDrop'
+import PlusCode from './components/plusCode';
+
 function App() {
   return (
     <div>
-      <Todo text='Hello React'/>
-      <Todo text='Master React'/>
-      <Todo text='Explore React'/>
+      <PlusCode />
 
 
     </div>
