@@ -9,10 +9,7 @@ import {
 import Distance from "./distance";
 import PlaceDetailCard from "../places/placeDetailCard/placeDetailCard";
 import BrowsePlaceSideBar from "../mapSideBar/browsePlaceSideBar";
-import Places from "./places";
-import NewMarkers from "../marks/newMarkers";
-import styles from "../../styles/Map.module.css";
-import AddPlaceSideBar from "../mapSideBar/addPlaceSideBar";
+
 
 type LatLngLiteral = google.maps.LatLngLiteral;
 type DirectionsResult = google.maps.DirectionsResult;
@@ -26,8 +23,8 @@ export default function Map(props: any) {
   const mapRef = useRef<GoogleMap>();
 
   const { places } = props;
-  const [eventsData, setEventsData] = useState<any>(places);
-
+  const [placeData, setPlaceData] = useState<any>(places);
+  // set map default center-----------------------------------------------------
   const center = useMemo<LatLngLiteral>(
     () => ({ lat: 51.4837, lng: -3.1681 }),
     []
@@ -40,8 +37,10 @@ export default function Map(props: any) {
     }),
     []
   );
+
   const onLoad = useCallback((map: any) => (mapRef.current = map), []);
 
+  // set direction-----------------------------------------------------
   const fetchDirections = (house: LatLngLiteral) => {
     if (!office && !destination) return;
 
@@ -59,7 +58,7 @@ export default function Map(props: any) {
       }
     );
   };
-
+  // show plcaeDetail after click the place icon-----------------------------------------------------
   const showDetail = (event: any) => {
     setPlaceDetail(event);
   };
@@ -68,51 +67,31 @@ export default function Map(props: any) {
     url: "/icons/home.svg", // url
     scaledSize: new google.maps.Size(30, 30), // scaled size
     origin: new google.maps.Point(0, 0), // origin
-    // anchor: new google.maps.Point(0, 0) // anchor
   };
 
   const eventIcon = {
     url: "/icons/event.svg", // url
     scaledSize: new google.maps.Size(30, 30), // scaled size
     origin: new google.maps.Point(0, 0), // origin
-    // anchor: new google.maps.Point(0, 0) // anchor
   };
   const h3Style = { color: "white" };
 
   return (
     <div className="container">
       <div className="controls">
-        
-          <BrowsePlaceSideBar
-            setOffice={(position: any) => {
-              setOffice(position);
-              mapRef.current?.panTo(position);
-            }}
-          />
-        
-        {directions  && <Distance leg={directions.routes[0].legs[0]} />}
-        {placeDetail  && <PlaceDetailCard placeDetail={placeDetail} />}
-        {/* {pageName === "addPlacePage" && (
-          <div className={styles.inputPlace}>
-            <h3 style={h3Style}>Destination</h3>
-            <AddPlaceSideBar
-              setOffice={(position: any) => {
-                setDestination(position);
-                mapRef.current?.panTo(position);
-              }}
-            />
-          </div>
-        )} */}
+        <BrowsePlaceSideBar
+          setOffice={(position: any) => {
+            setOffice(position);
+            mapRef.current?.panTo(position);
+          }}
+        />
+
+        {directions && <Distance leg={directions.routes[0].legs[0]} />}
+        {placeDetail && <PlaceDetailCard placeDetail={placeDetail} />}
+
         {!office && <p>Enter the address you want to.</p>}
 
-        {/* {destination && pageName === "addPlacePage" && (
-          <NewMarkers
-            position={destination}
-            setEventsData={(events: any) => {
-              setEventsData(events);
-            }}
-          />
-        )} */}
+
       </div>
       <div className="map">
         <GoogleMap
@@ -139,10 +118,10 @@ export default function Map(props: any) {
             <>
               <Marker position={office} icon={homeIcon} />
 
-              {eventsData && (
+              {placeData && (
                 <MarkerClusterer>
                   {(clusterer) =>
-                    eventsData.map((event: any) => (
+                    placeData.map((event: any) => (
                       <Marker
                         key={event.id}
                         position={event.position}
@@ -183,6 +162,9 @@ export default function Map(props: any) {
     </div>
   );
 }
+
+// distance circle-----------------------------------------------------
+
 
 const defaultOptions = {
   strokeOpacity: 0.5,

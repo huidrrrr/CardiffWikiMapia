@@ -9,8 +9,6 @@ const LoginForm = () => {
   const onFinish = (values) => {
     const { username, password } = values;
 
-    console.log(username);
-
     const response = axios.get(`http://localhost:8080/user/${username}`);
 
     response.then((res) => {
@@ -69,9 +67,9 @@ const LoginForm = () => {
           <Checkbox>Remember me</Checkbox>
         </Form.Item>
 
-        <a className="login-form-forgot" href="">
+        <Link className="login-form-forgot" href="">
           Forgot password
-        </a>
+        </Link>
       </Form.Item>
 
       <Form.Item>

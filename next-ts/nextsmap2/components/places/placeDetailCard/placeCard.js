@@ -21,17 +21,13 @@ const PlaceCard = (props) => {
           width: 300,
         }}
         cover={<img alt="example" src={imgSrc} />}
-        actions={[
-          <SettingOutlined key="setting" />,
-          <EditOutlined key="edit" />,
-          <EllipsisOutlined key="ellipsis" />,
-        ]}
+
       >
         <h2 className={styles.title}>{placeData.name}</h2>
         <Meta
           avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
           title={placeData.name}
-          description={placeData.description}
+          description={"added by"}
         />
       </Card>
     );

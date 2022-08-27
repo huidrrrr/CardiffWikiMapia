@@ -1,5 +1,6 @@
 import React from "react";
 import BrowseMap from "../../components/map/browseMap";
+import { GetAllPlaces } from "../../components/helper/placeApiUtil";
 import { getAllPlaces } from "../../components/helper/apiUtil";
 
 export default function BrowsePlace(props) {

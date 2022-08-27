@@ -3,9 +3,12 @@ import React, { useEffect, useState } from "react";
 import SmallMap from "../../components/map/smallMap";
 import { getAllPlaces, getPlaceById } from "../../components/helper/apiUtil";
 import PlaceCard from "../../components/places/placeDetailCard/placeCard";
-import CommentBox from "../../components/comments/comment";
+import CommentBox from "../../components/places/comments/comment";
 import styles from "./index.module.css";
-import AddComment from "../../components/comments/addComment";
+import AddComment from "../../components/places/comments/addComment";
+import TimelineComp from "../../components/places/timeline/timeline";
+import { Collapse } from "antd";
+const { Panel } = Collapse;
 export default function PlaceDetailPage(props) {
   const { place } = props;
   const [placeData, setPlaceData] = useState(place);
@@ -22,8 +25,17 @@ export default function PlaceDetailPage(props) {
         <PlaceCard placeData={placeData} />
         <SmallMap placeData={placeData} />
       </div>
-      <CommentBox placeData={placeData} />
-      <AddComment />
+      <div>
+        <Collapse bordered={false} defaultActiveKey={["1"]}>
+          <Panel header="Timeline" key="1">
+            <TimelineComp />
+          </Panel>
+          <Panel header="Comments" key="2">
+            <CommentBox placeData={placeData} />
+            <AddComment />
+          </Panel>
+        </Collapse>
+      </div>
     </div>
   );
 }

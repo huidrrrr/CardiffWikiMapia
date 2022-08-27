@@ -47,6 +47,7 @@ const items1 = [
   getItem("Places", "places", <UnorderedListOutlined />, [
     getItem("Places List", "placeList"),
     getItem("Add Places", "addPlaceList"),
+    getItem("History of Places", "historyPlaces"),
   ]),
 ];
 

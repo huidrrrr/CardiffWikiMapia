@@ -1,10 +1,22 @@
 import React from "react";
-import Test from '../components/test'
-import { getAllPlaces } from "../components/helper/apiUtil";
+import Test from "../components/test";
+import { GetAllPlaces } from "../components/helper/placeApiUtil";
 import BrowseMap from "../components/map/browseMap";
-export default function Home() {
+import axios from "axios";
+export default function Home(props: any) {
+  const { places } = props;
+  console.log(places);
+  
+  return <div></div>;
+}
 
-  return <div> 
-    <Test/>
-  </div>;
+export async function getStaticProps() {
+  const placesData=await GetAllPlaces();
+
+  return {
+    props: {
+      places: placesData,
+    },
+    revalidate: 1800,
+  };
 }
