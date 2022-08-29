@@ -5,13 +5,16 @@ import BrowseMap from "../components/map/browseMap";
 import axios from "axios";
 export default function Home(props: any) {
   const { places } = props;
-  console.log(places);
-  
-  return <div></div>;
+
+  return (
+    <div>
+      <Test />
+    </div>
+  );
 }
 
 export async function getStaticProps() {
-  const placesData=await GetAllPlaces();
+  const placesData = await GetAllPlaces();
 
   return {
     props: {

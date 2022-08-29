@@ -9,7 +9,6 @@ export default function SmallMap(props: any) {
   if (placeData) {
     position = placeData.position;
   }
-  console.log(placeData);
 
   const options = useMemo<MapOptions>(
     () => ({

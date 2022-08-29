@@ -74,7 +74,6 @@ export default function Map(props: any) {
     scaledSize: new google.maps.Size(30, 30), // scaled size
     origin: new google.maps.Point(0, 0), // origin
   };
-  const h3Style = { color: "white" };
 
   return (
     <div className="container">

@@ -26,7 +26,7 @@ const PlaceCard = (props) => {
         <h2 className={styles.title}>{placeData.name}</h2>
         <Meta
           avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-          title={placeData.name}
+          title={`upper name`}
           description={"added by"}
         />
       </Card>

@@ -7,11 +7,19 @@ import CommentBox from "../../components/places/comments/comment";
 import styles from "./index.module.css";
 import AddComment from "../../components/places/comments/addComment";
 import TimelineComp from "../../components/places/timeline/timeline";
+import { Chrono } from "react-chrono";
 import { Collapse } from "antd";
 const { Panel } = Collapse;
 export default function PlaceDetailPage(props) {
   const { place } = props;
   const [placeData, setPlaceData] = useState(place);
+  const { events } = place;
+  const eventsList = [];
+  for (const key in events) {
+    eventsList.push({
+      ...events[key],
+    });
+  }
 
   useEffect(() => {
     setPlaceData(place);
@@ -28,7 +36,7 @@ export default function PlaceDetailPage(props) {
       <div>
         <Collapse bordered={false} defaultActiveKey={["1"]}>
           <Panel header="Timeline" key="1">
-            <TimelineComp />
+            <Chrono items={eventsList} mode="VERTICAL" />
           </Panel>
           <Panel header="Comments" key="2">
             <CommentBox placeData={placeData} />
