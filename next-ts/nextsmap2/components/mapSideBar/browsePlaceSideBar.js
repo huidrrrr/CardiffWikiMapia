@@ -9,7 +9,6 @@ export default function BrowsePlaceSideBar(props) {
   };
 
   const callDrawer = () => {
-    console.log("clicked");
     props.callSonComp();
   };
   return (

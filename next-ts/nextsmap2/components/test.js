@@ -1,4 +1,4 @@
-import { Upload } from "antd";
+import { Form, Upload } from "antd";
 import ImgCrop from "antd-img-crop";
 import React, { useState } from "react";
 
@@ -9,12 +9,8 @@ const App = () => {
   const onChange = (fileList) => {
     fileToBase64(fileList.file.originFileObj, (value) => {
       setImgBase64(value);
+      setFileList(fileList.fileList);
     });
-    // console.log(fileList);
-    console.log("---------------------------------------------");
-    // console.log("data"+fileList[0].thumbUrl);
-    // setImgBase64(fileList[0].thumbUrl);
-    // setFileList(newFileList);
   };
 
   const onPreview = async (file) => {
@@ -49,20 +45,22 @@ const App = () => {
   }
 
   return (
-    <>
-      <ImgCrop rotate>
-        <Upload
-          listType="picture-card"
-          fileList={fileList}
-          onChange={onChange}
-          onPreview={onPreview}
-          maxCount={1}
-        >
-          {fileList.length < 5 && "+ Upload"}
-        </Upload>
-      </ImgCrop>
-      <img style={{maxWidth:'400px'}} src={imgBase64}></img>
-    </>
+    <Form>
+      <Form.Item label="image">
+        <ImgCrop rotate>
+          <Upload
+            listType="picture-card"
+            fileList={fileList}
+            onChange={onChange}
+            onPreview={onPreview}
+            maxCount={1}
+          >
+            {fileList.length < 5 && "+ Upload"}
+          </Upload>
+        </ImgCrop>
+        <img style={{ maxWidth: "400px" }} src={imgBase64}></img>
+      </Form.Item>
+    </Form>
   );
 };
 

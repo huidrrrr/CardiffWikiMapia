@@ -1,14 +1,53 @@
 import React, { useState } from "react";
-import { Form, Input, Button, Select, message } from "antd";
+import { Form, Input, Button, Select, message, Upload } from "antd";
+import ImgCrop from "antd-img-crop";
 import { addOneMissingPlace, getPlusCode } from "../../helper/apiUtil";
 const { TextArea } = Input;
 export default function MissingPlaceForm(props) {
+  // image base64-------------------------------
+  const [imgBase64, setImgBase64] = useState();
+  const [fileList, setFileList] = useState([]);
+  // pluscode--------------------------------------
   const [plusCode, setPlusCode] = useState();
   const { position } = props;
   getPlusCode(position).then((res) => {
     setPlusCode(res);
   });
 
+  // upload image-------------------------------------------------
+  const onChange = (fileList) => {
+    console.log(fileList);
+    fileToBase64(fileList.file.originFileObj, (value) => {
+      setImgBase64(value);
+      setFileList(fileList.fileList);
+    });
+  };
+
+  function fileToBase64(file, callback) {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+    fileReader.onload = function () {
+      callback(this.result);
+    };
+  }
+  const onPreview = async (file) => {
+    let src = file.url;
+
+    if (!src) {
+      src = await new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file.originFileObj);
+
+        reader.onload = () => resolve(reader.result);
+      });
+    }
+
+    const image = new Image();
+    image.src = src;
+    const imgWindow = window.open(src);
+    imgWindow?.document.write(image.outerHTML);
+  };
+  // upload a missing place--------------------------------
   const onFinish = (values) => {
     const { name, description, category } = values;
     const newPlace = {
@@ -20,9 +59,10 @@ export default function MissingPlaceForm(props) {
         lng: position.lng,
       },
       plusCode: plusCode,
-      img: "",
+      img: imgBase64,
       events: {},
       comments: {},
+      upperId:1
     };
     addOneMissingPlace(newPlace).then((res) => {
       if (res.status === "200") {
@@ -91,6 +131,21 @@ export default function MissingPlaceForm(props) {
         >
           <TextArea rows={4} />
         </Form.Item>
+        <Form.Item label="Image">
+          <ImgCrop rotate>
+            <Upload
+
+              listType="picture-card"
+              fileList={fileList}
+              onChange={onChange}
+              onPreview={onPreview}
+              maxCount={1}
+            >
+              {fileList.length < 5 && "+ Upload"}
+            </Upload>
+          </ImgCrop>
+        </Form.Item>
+
         <Form.Item
           style={{
             justifyContent: "right",

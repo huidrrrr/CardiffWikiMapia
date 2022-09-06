@@ -20,7 +20,7 @@ const PlaceCard = (props) => {
         style={{
           width: 300,
         }}
-        cover={<img alt="example" src={placeData.img ? "/images/" + placeData.img : "/images/noImg.png"} />}
+        cover={<img alt="example" src={placeData.img ? placeData.img : "/images/noImg.png"} />}
 
       >
         <h2 className={styles.title}>{placeData.name}</h2>

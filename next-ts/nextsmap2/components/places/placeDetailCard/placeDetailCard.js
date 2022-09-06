@@ -30,7 +30,7 @@ export default function PlaceDetailCard(props) {
       >
         <div className={styles.imgBox}>
           <Image
-            src={placeDetail.img ? "/images/" + placeDetail.img : "/images/noImg.png"}
+            src={placeDetail.img ? placeDetail.img : "/images/noImg.png"}
             alt=""
             height={230}
           />

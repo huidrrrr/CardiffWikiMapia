@@ -34,7 +34,6 @@ export async function addOneMissingPlace(place) {
     url: url,
     data: JSON.stringify(place),
   });
-  console.log(response);
   return response;
 }
 
@@ -49,6 +48,5 @@ export async function addComment(placeId, comment) {
     url: url,
     data: JSON.stringify(comment),
   });
-  console.log(response);
   return response;
 }

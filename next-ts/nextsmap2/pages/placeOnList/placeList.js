@@ -5,6 +5,7 @@ import SearchInput from "../../components/places/searchInput/searchInput";
 import styles from "./placeList.module.css";
 import { ReloadOutlined } from "@ant-design/icons";
 import { Button, Tooltip } from "antd";
+import BackTopComp from "../../components/pageLayout/backTop";
 export default function PlaceListPage(props) {
   let { places, placeNameList, placeCategoryList } = props;
   const [placeData, setPlaceData] = useState(places);
@@ -37,6 +38,7 @@ export default function PlaceListPage(props) {
       </div>
 
       <PlaceList places={placeData} />
+      <BackTopComp />
     </div>
   );
 }

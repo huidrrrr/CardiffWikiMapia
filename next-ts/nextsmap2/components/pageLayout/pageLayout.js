@@ -84,7 +84,7 @@ export default function PageLayout(props) {
 
       case "places":
         if (keyPath[0] === "historyPlaces") {
-          const upperId = "1";
+          const upperId = 1;
           path = `/placeOnList/${upperId}`;
           Router.push(path);
           break;

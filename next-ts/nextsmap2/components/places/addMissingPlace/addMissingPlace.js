@@ -21,7 +21,6 @@ export default function AddMissingPlace() {
   //  map click eventHandler--------------------------------------
 
   const onClick = (e) => {
-    console.log(e.latLng.toJSON());
     setClick(e.latLng);
   };
 

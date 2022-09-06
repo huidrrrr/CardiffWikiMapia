@@ -16,6 +16,6 @@
     "isolatedModules": true,
     "jsx": "preserve"
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "components/marks/newMarkers.js", "components/places/placeDetailCard/placeDetailCard.js", "components/layout/loginLayout.js", "components/test.js", "components/places/addMissingPlace/addMissingPlace.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "components/marks/newMarkers.js", "components/places/placeDetailCard/placeDetailCard.js", "components/layout/loginLayout.js", "components/index.js", "components/places/addMissingPlace/addMissingPlace.js"],
   "exclude": ["node_modules"]
 }
