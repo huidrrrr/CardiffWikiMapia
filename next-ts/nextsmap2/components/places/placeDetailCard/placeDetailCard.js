@@ -5,7 +5,8 @@ import { useRouter } from "next/router";
 
 export default function PlaceDetailCard(props) {
   const { placeDetail } = props;
-  const imgSrc = "/images/" + placeDetail.img;
+  // check empty data----------------------------------------
+
   const router = useRouter();
   const cardClickhandler = (placeDetail) => {
     const path = {
@@ -28,7 +29,11 @@ export default function PlaceDetailCard(props) {
         }
       >
         <div className={styles.imgBox}>
-          <Image src={imgSrc} alt=""  height={230}/>
+          <Image
+            src={placeDetail.img ? "/images/" + placeDetail.img : "/images/noImg.png"}
+            alt=""
+            height={230}
+          />
         </div>
         <div className={styles.verticalBox}>
           <p>Place Name:</p>
@@ -42,7 +47,16 @@ export default function PlaceDetailCard(props) {
         </div>
         <div className={styles.horizontalBox}>
           <p>Place Description:</p>
-          <p>{placeDetail.description}</p>
+          <p style={{
+            wordBreak:'break-all',
+            overflow:'hidden',
+            display:'-webkit-box',
+            WebkitLineClamp:2,
+            WebkitBoxOrient:'vertical'
+          }}
+          >
+            {placeDetail.description}
+          </p>
         </div>
       </Card>
     </div>

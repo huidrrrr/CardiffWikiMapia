@@ -32,3 +32,4 @@ export async function getFilteredEvents(dataFilter) {
   });
   return filteredEvents
 }
+

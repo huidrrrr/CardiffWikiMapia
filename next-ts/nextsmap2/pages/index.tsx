@@ -1,6 +1,7 @@
 import React from "react";
 import Test from "../components/test";
 import { GetAllPlaces } from "../components/helper/placeApiUtil";
+import { getAllPlaces } from "../components/helper/apiUtil";
 import BrowseMap from "../components/map/browseMap";
 import axios from "axios";
 export default function Home(props: any) {
@@ -8,18 +9,19 @@ export default function Home(props: any) {
 
   return (
     <div>
+      <input/>
       <Test />
     </div>
   );
 }
 
-export async function getStaticProps() {
-  const placesData = await GetAllPlaces();
+// export async function getStaticProps() {
+//   const placesData = await getAllPlaces();
 
-  return {
-    props: {
-      places: placesData,
-    },
-    revalidate: 1800,
-  };
-}
+//   return {
+//     props: {
+//       places: placesData,
+//     },
+//     revalidate: 1800,
+//   };
+// }

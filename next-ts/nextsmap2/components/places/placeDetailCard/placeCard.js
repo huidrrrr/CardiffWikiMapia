@@ -11,7 +11,7 @@ const { Meta } = Card;
 
 const PlaceCard = (props) => {
   const { placeData } = props;
-  const imgSrc = "/images/" + placeData.img;
+  
   if (!placeData) {
     return <p>Loading...</p>;
   } else {
@@ -20,7 +20,7 @@ const PlaceCard = (props) => {
         style={{
           width: 300,
         }}
-        cover={<img alt="example" src={imgSrc} />}
+        cover={<img alt="example" src={placeData.img ? "/images/" + placeData.img : "/images/noImg.png"} />}
 
       >
         <h2 className={styles.title}>{placeData.name}</h2>

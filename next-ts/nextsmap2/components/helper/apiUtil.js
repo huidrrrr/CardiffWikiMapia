@@ -17,3 +17,38 @@ export async function getPlaceById(id) {
   const allPlaces = await getAllPlaces();
   return allPlaces.find((place) => place.id === id);
 }
+
+export async function getPlusCode(position) {
+  const url =
+    "https://plus.codes/api?address=" + position.lat + "," + position.lng;
+  const response = await axios.get(url);
+  const plusCode = response.data.plus_code.global_code;
+  return plusCode;
+}
+
+export async function addOneMissingPlace(place) {
+  const url =
+    "https://nextjs-dummydb-61545-default-rtdb.firebaseio.com/marks.json";
+  const response = await axios({
+    method: "post",
+    url: url,
+    data: JSON.stringify(place),
+  });
+  console.log(response);
+  return response;
+}
+
+export async function getOneUpperPlaces(id) {
+  const allPlaces = await getAllPlaces();
+  return allPlaces.filter((place) => place.upperId === id);
+}
+export async function addComment(placeId, comment) {
+  const url = `https://nextjs-dummydb-61545-default-rtdb.firebaseio.com/marks/${placeId}/comments.json`;
+  const response = axios({
+    method: "post",
+    url: url,
+    data: JSON.stringify(comment),
+  });
+  console.log(response);
+  return response;
+}

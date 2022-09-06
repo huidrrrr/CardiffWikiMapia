@@ -49,7 +49,7 @@ const CommentBox = (props) => {
         <span className="comment-action">{dislikes}</span>
       </span>
     </Tooltip>,
-    <span key="comment-basic-reply-to">Reply to</span>,
+    
   ];
   if (!placeData) {
     return <p>Loading...</p>;

@@ -39,8 +39,7 @@ export default function PlaceDetailPage(props) {
             <Chrono items={eventsList} mode="VERTICAL" />
           </Panel>
           <Panel header="Comments" key="2">
-            <CommentBox placeData={placeData} />
-            <AddComment />
+            <AddComment placeData={placeData} />
           </Panel>
         </Collapse>
       </div>

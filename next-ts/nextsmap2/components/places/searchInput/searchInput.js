@@ -44,7 +44,7 @@ const SearchInput = (props) => {
   };
 
   return (
-    <div>
+    <div style={{ display: "flex", gap: "1rem" }}>
       <AutoComplete
         style={{
           width: 200,
@@ -56,7 +56,7 @@ const SearchInput = (props) => {
         }
         onSelect={searchHandler}
       />
-      <div style={{ display: "flex", gap: "1rem" }}>
+      <div>
         <Radio.Group value={mode} onChange={handleModeChange}>
           <Radio.Button
             value="placeName"

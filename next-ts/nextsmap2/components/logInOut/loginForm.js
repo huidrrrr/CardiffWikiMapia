@@ -32,6 +32,7 @@ const LoginForm = () => {
         remember: true,
       }}
       onFinish={onFinish}
+      style={{display:"flex",flexDirection:"column"}}
     >
       <Form.Item
         name="username"

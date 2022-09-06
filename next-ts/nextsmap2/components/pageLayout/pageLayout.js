@@ -25,9 +25,6 @@ function getItem(label, key, icon, children, type) {
   };
 }
 
-
-
-
 const items1 = [
   getItem("User", "user", <UserOutlined />, [
     getItem(
@@ -45,7 +42,6 @@ const items1 = [
   ]),
   getItem("Map", "map", <CompassOutlined />, [
     getItem("Browse Places", "browsePlace"),
-    getItem("Add Places", "addPlaceMap"),
   ]),
   getItem("Places", "places", <UnorderedListOutlined />, [
     getItem("Places List", "placeList"),
@@ -62,7 +58,6 @@ export default function PageLayout(props) {
   let path = "";
   const onClick = (e) => {
     const { keyPath } = e;
-    console.log(keyPath);
     switch (keyPath[1]) {
       case "user":
         if (keyPath[0] === "home") {
@@ -88,9 +83,16 @@ export default function PageLayout(props) {
         break;
 
       case "places":
-        path = `/placeOnList/${keyPath[0]}`;
-        Router.push(path);
-        break;
+        if (keyPath[0] === "historyPlaces") {
+          const upperId = "1";
+          path = `/placeOnList/${upperId}`;
+          Router.push(path);
+          break;
+        } else {
+          path = `/placeOnList/${keyPath[0]}`;
+          Router.push(path);
+          break;
+        }
 
       default:
         break;

@@ -1,37 +1,69 @@
-import { Chrono } from "react-chrono";
-import React from "react";
+import { Upload } from "antd";
+import ImgCrop from "antd-img-crop";
+import React, { useState } from "react";
 
-export default function Test() {
-  const items = [
-    {
-      title: "June 1941",
-      cardTitle: "Operation Barbarossa",
-      cardSubtitle: `A column of Red Army prisoners taken during the first days of the German invasion`,
-      cardDetailedText: `Since the 1920s, Hitler had seen Russia, with its immense natural resources, as the principal target for conquest and expansion. It would provide, he believed, the necessary 'Lebensraum', or living space, for the German people. And by conquering Russia, Hitler would also destroy the “Jewish pestilential creed of Bolshevism”. His non-aggression pact with Stalin in August 1939 he regarded as a mere temporary expedient.
-  Barely a month after the fall of France, and while the Battle of Britain was being fought, Hitler started planning for the Blitzkrieg campaign against Russia, which began on 22 June 1941. Despite repeated warnings, Stalin was taken by surprise, and for the first few months the Germans achieved spectacular victories, capturing huge swathes of land and hundreds of thousands of prisoners. But they failed to take Moscow or Leningrad before winter set in.
-  On 5/6 December, the Red Army launched a counter-offensive which removed the immediate threat to the Soviet capital. It also brought the German high command to the brink of a catastrophic military crisis. Hitler stepped in and took personal command. His intervention was decisive and he later boasted, “That we overcame this winter and are today in a position again to proceed victoriously… is solely attributable to the bravery of the soldiers at the front and my firm will to hold out…”
-  `,
-    },
-    {
-      title: "June 1941",
-      cardTitle: "Operation Barbarossa",
-      cardSubtitle: `A column of Red Army prisoners taken during the first days of the German invasion`,
-      cardDetailedText: `Since the 1920s, Hitler had seen Russia, with its immense natural resources, as the principal target for conquest and expansion. It would provide, he believed, the necessary 'Lebensraum', or living space, for the German people. And by conquering Russia, Hitler would also destroy the “Jewish pestilential creed of Bolshevism”. His non-aggression pact with Stalin in August 1939 he regarded as a mere temporary expedient.
-  Barely a month after the fall of France, and while the Battle of Britain was being fought, Hitler started planning for the Blitzkrieg campaign against Russia, which began on 22 June 1941. Despite repeated warnings, Stalin was taken by surprise, and for the first few months the Germans achieved spectacular victories, capturing huge swathes of land and hundreds of thousands of prisoners. But they failed to take Moscow or Leningrad before winter set in.
-  On 5/6 December, the Red Army launched a counter-offensive which removed the immediate threat to the Soviet capital. It also brought the German high command to the brink of a catastrophic military crisis. Hitler stepped in and took personal command. His intervention was decisive and he later boasted, “That we overcame this winter and are today in a position again to proceed victoriously… is solely attributable to the bravery of the soldiers at the front and my firm will to hold out…”`,
-    },
-    {
-      title: "June 1941",
-      cardTitle: "Operation Barbarossa",
-      cardSubtitle: `A column of Red Army prisoners taken during the first days of the German invasion`,
-      cardDetailedText: `Since the 1920s, Hitler had seen Russia, with its immense natural resources, as the principal target for conquest and expansion. It would provide, he believed, the necessary 'Lebensraum', or living space, for the German people. And by conquering Russia, Hitler would also destroy the “Jewish pestilential creed of Bolshevism”. His non-aggression pact with Stalin in August 1939 he regarded as a mere temporary expedient.
-  Barely a month after the fall of France, and while the Battle of Britain was being fought, Hitler started planning for the Blitzkrieg campaign against Russia, which began on 22 June 1941. Despite repeated warnings, Stalin was taken by surprise, and for the first few months the Germans achieved spectacular victories, capturing huge swathes of land and hundreds of thousands of prisoners. But they failed to take Moscow or Leningrad before winter set in.
-  On 5/6 December, the Red Army launched a counter-offensive which removed the immediate threat to the Soviet capital. It also brought the German high command to the brink of a catastrophic military crisis. Hitler stepped in and took personal command. His intervention was decisive and he later boasted, “That we overcame this winter and are today in a position again to proceed victoriously… is solely attributable to the bravery of the soldiers at the front and my firm will to hold out…”`,
-    },
-  ];
+const App = () => {
+  const [imgBase64, setImgBase64] = useState();
+  const [fileList, setFileList] = useState([]);
+
+  const onChange = (fileList) => {
+    fileToBase64(fileList.file.originFileObj, (value) => {
+      setImgBase64(value);
+    });
+    // console.log(fileList);
+    console.log("---------------------------------------------");
+    // console.log("data"+fileList[0].thumbUrl);
+    // setImgBase64(fileList[0].thumbUrl);
+    // setFileList(newFileList);
+  };
+
+  const onPreview = async (file) => {
+    let src = file.url;
+
+    if (!src) {
+      src = await new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file.originFileObj);
+
+        reader.onload = () => resolve(reader.result);
+      });
+    }
+
+    const image = new Image();
+    image.src = src;
+    const imgWindow = window.open(src);
+    imgWindow?.document.write(image.outerHTML);
+  };
+
+  /**
+   * 获取文件的Base64
+   * @param file      {File}      文件
+   * @param callback  {Function}  回调函数，参数为获取到的base64
+   */
+  function fileToBase64(file, callback) {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+    fileReader.onload = function () {
+      callback(this.result);
+    };
+  }
+
   return (
-    <div>
-      <Chrono items={items} mode="VERTICAL" />
-    </div>
+    <>
+      <ImgCrop rotate>
+        <Upload
+          listType="picture-card"
+          fileList={fileList}
+          onChange={onChange}
+          onPreview={onPreview}
+          maxCount={1}
+        >
+          {fileList.length < 5 && "+ Upload"}
+        </Upload>
+      </ImgCrop>
+      <img style={{maxWidth:'400px'}} src={imgBase64}></img>
+    </>
   );
-}
+};
+
+export default App;

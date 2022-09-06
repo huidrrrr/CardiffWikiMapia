@@ -19,7 +19,7 @@ a {
 
 .container {
   display: flex;
-  height: 100vh;
+  height: 50rem;
 }
 
 .controls {
@@ -35,12 +35,12 @@ a {
 
 .map-container {
   width: 100%;
-  height: 100vh;
+  height: 50rem;
 }
 
 .map {
   width: 80%;
-  height: 100vh;
+  height: 50rem;
 }
 
 .highlight {
