@@ -66,6 +66,7 @@ export default function MissingPlaceForm(props) {
     };
     addOneMissingPlace(newPlace).then((res) => {
       if (res.status === "200") {
+        
         message.info("Add place successfully!");
       }
     });

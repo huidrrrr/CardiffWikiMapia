@@ -120,7 +120,7 @@ const AddComment = (props) => {
       };
 
       addComment(placeData.id, commentContent).then((res) => {
-        if (res.status === "200") {
+        if (res.status === 200) {
         } else {
           message.warn("Add comment failed");
         }
