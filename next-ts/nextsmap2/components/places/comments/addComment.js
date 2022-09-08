@@ -16,7 +16,12 @@ import {
   LikeOutlined,
 } from "@ant-design/icons";
 import React, { useState, createElement } from "react";
-import { addComment } from "../../helper/apiUtil";
+import {
+  addComment,
+  getAllPlaces,
+  getOnePlaceAllComments,
+  getPlaceById,
+} from "../../helper/apiUtil";
 const { TextArea } = Input;
 
 const CommentList = ({ comments }) => {
@@ -98,7 +103,8 @@ const AddComment = (props) => {
   ];
   const { placeData } = props;
 
-  const comments = convertcomments(placeData.comments, actions);
+  const commentsInit = convertcomments(placeData.comments, actions);
+  const [comments, setComments] = useState(commentsInit);
   const [likes, setLikes] = useState(0);
   const [dislikes, setDislikes] = useState(0);
   const [action, setAction] = useState(null);
@@ -121,6 +127,12 @@ const AddComment = (props) => {
 
       addComment(placeData.id, commentContent).then((res) => {
         if (res.status === 200) {
+          // get new all new data here------------------------------
+          getOnePlaceAllComments(placeData.id).then((res) => {
+            const newComments = convertcomments(res.data, actions);
+            setComments(newComments);
+            // setComments(res.data);
+          });
         } else {
           message.warn("Add comment failed");
         }

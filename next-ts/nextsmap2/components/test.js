@@ -1,8 +1,16 @@
 import { Form, Upload } from "antd";
 import ImgCrop from "antd-img-crop";
 import React, { useState } from "react";
+import { getOnePlaceAllComments } from "./helper/apiUtil";
 
 const App = () => {
+
+  const comments = getOnePlaceAllComments("-N8-FPmaRFydaKez40zP")
+  comments.then((res) => { 
+    console.log(res.data);
+   })
+
+
   const [imgBase64, setImgBase64] = useState();
   const [fileList, setFileList] = useState([]);
 

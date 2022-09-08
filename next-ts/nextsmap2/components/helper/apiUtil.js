@@ -41,6 +41,20 @@ export async function getOneUpperPlaces(id) {
   const allPlaces = await getAllPlaces();
   return allPlaces.filter((place) => place.upperId === id);
 }
+
+
+
+// Comment api---------------------------------------------------------
+
+export async function getOnePlaceAllComments(placeId){
+  const url = `https://nextjs-dummydb-61545-default-rtdb.firebaseio.com/marks/${placeId}/comments.json`;
+  const response = await axios({
+    url:url,
+  })
+  return response
+}
+
+
 export async function addComment(placeId, comment) {
   const url = `https://nextjs-dummydb-61545-default-rtdb.firebaseio.com/marks/${placeId}/comments.json`;
   const response = axios({

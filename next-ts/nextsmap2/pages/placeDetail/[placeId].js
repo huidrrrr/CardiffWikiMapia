@@ -27,6 +27,13 @@ export default function PlaceDetailPage(props) {
   if (!place) {
     return <p>Loading...</p>;
   }
+
+  // const dataUpdateHandler = (newData) => {
+    
+  //   setPlaceData(newData);
+    
+  // };
+
   return (
     <div className={styles.content}>
       <div className={styles.detailBox}>
@@ -39,7 +46,7 @@ export default function PlaceDetailPage(props) {
             <Chrono items={eventsList} mode="VERTICAL" />
           </Panel>
           <Panel header="Comments" key="2">
-            <AddComment placeData={placeData} />
+            <AddComment placeData={placeData}  />
           </Panel>
         </Collapse>
       </div>
