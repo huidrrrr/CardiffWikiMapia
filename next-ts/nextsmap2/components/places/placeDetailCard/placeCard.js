@@ -3,16 +3,16 @@ import {
   EllipsisOutlined,
   SettingOutlined,
 } from "@ant-design/icons";
-import { Avatar, Card } from "antd";
+import { Avatar, Card, Image } from "antd";
 import React from "react";
 import styles from "./placeCard.module.css";
-import Image from "next/image";
+
 const { Meta } = Card;
 
 const PlaceCard = (props) => {
-  const { placeData } = props;
-  
-  if (!placeData) {
+  const { placeDetailData } = props;
+
+  if (!placeDetailData) {
     return <p>Loading...</p>;
   } else {
     return (
@@ -20,13 +20,19 @@ const PlaceCard = (props) => {
         style={{
           width: 300,
         }}
-        cover={<img alt="example" src={placeData.img ? placeData.img : "/images/noImg.png"} />}
-
+        cover={
+          <Image
+            alt="example"
+            src={
+              placeDetailData.img ? placeDetailData.img : "/images/noImg.png"
+            }
+          />
+        }
       >
-        <h2 className={styles.title}>{placeData.name}</h2>
+        <h2 className={styles.title}>{placeDetailData.name}</h2>
         <Meta
-          avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-          title={`upper name`}
+          avatar={<Avatar src={placeDetailData.upperAvatar} />}
+          title={placeDetailData.upperName}
           description={"added by"}
         />
       </Card>

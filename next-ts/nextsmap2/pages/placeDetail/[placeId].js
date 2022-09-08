@@ -1,25 +1,22 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import SmallMap from "../../components/map/smallMap";
-import { getAllPlaces, getPlaceById } from "../../components/helper/apiUtil";
+import {
+  getAllPlaces,
+  getOnePlaceEventsByPlaceId,
+  getPlaceById,
+} from "../../components/helper/apiUtil";
 import PlaceCard from "../../components/places/placeDetailCard/placeCard";
-import CommentBox from "../../components/places/comments/comment";
 import styles from "./index.module.css";
-import AddComment from "../../components/places/comments/addComment";
-import TimelineComp from "../../components/places/timeline/timeline";
-import { Chrono } from "react-chrono";
+import Comment from "../../components/places/comments/addComment";
+import Timeline from "../../components/places/timeline/timeline";
 import { Collapse } from "antd";
 const { Panel } = Collapse;
 export default function PlaceDetailPage(props) {
   const { place } = props;
   const [placeData, setPlaceData] = useState(place);
   const { events } = place;
-  const eventsList = [];
-  for (const key in events) {
-    eventsList.push({
-      ...events[key],
-    });
-  }
+
 
   useEffect(() => {
     setPlaceData(place);
@@ -27,26 +24,49 @@ export default function PlaceDetailPage(props) {
   if (!place) {
     return <p>Loading...</p>;
   }
+  const placeDetailData = {
+    id: placeData.id,
+    name: placeData.name,
+    img: placeData.img,
+    upperName: "Peter",
+    upperAvatar: "https://joeschmoe.io/api/v1/random",
+    uploadDate: "2022-07-29",
+  };
+  const eventsList=[]
+  for(const key in placeData.events){
+    eventsList.push({
+      id:key,
+      ...placeData.events[key]
+    })
+  }
 
-  // const dataUpdateHandler = (newData) => {
-    
-  //   setPlaceData(newData);
-    
-  // };
+  const eventsData = {
+    placeId: placeData.id,
+    events: eventsList,
+  };
+  const commentsData = {
+    placeId: placeData.id,
+    comments: placeData.comments,
+  };
+
+  const position = placeData.position;
 
   return (
     <div className={styles.content}>
       <div className={styles.detailBox}>
-        <PlaceCard placeData={placeData} />
-        <SmallMap placeData={placeData} />
+        <PlaceCard placeDetailData={placeDetailData} />
+        <SmallMap position={position} />
       </div>
       <div>
         <Collapse bordered={false} defaultActiveKey={["1"]}>
-          <Panel header="Timeline" key="1">
-            <Chrono items={eventsList} mode="VERTICAL" />
+          <Panel header="Place detail" key="1">
+            <div></div>
           </Panel>
-          <Panel header="Comments" key="2">
-            <AddComment placeData={placeData}  />
+          <Panel header="Timeline" key="2">
+            <Timeline eventsData={eventsData} />
+          </Panel>
+          <Panel header="Comments" key="3">
+            <Comment commentsData={commentsData} />
           </Panel>
         </Collapse>
       </div>
@@ -72,6 +92,6 @@ export async function getStaticPaths() {
   const paths = places.map((place) => ({ params: { placeId: place.id } }));
   return {
     paths: paths,
-    fallback: true,
+    fallback: false,
   };
 }

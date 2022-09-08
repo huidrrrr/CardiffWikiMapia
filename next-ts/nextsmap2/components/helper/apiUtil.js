@@ -42,25 +42,31 @@ export async function getOneUpperPlaces(id) {
   return allPlaces.filter((place) => place.upperId === id);
 }
 
-
-
 // Comment api---------------------------------------------------------
 
-export async function getOnePlaceAllComments(placeId){
+export async function getOnePlaceAllComments(placeId) {
   const url = `https://nextjs-dummydb-61545-default-rtdb.firebaseio.com/marks/${placeId}/comments.json`;
   const response = await axios({
-    url:url,
-  })
-  return response
+    url: url,
+  });
+  return response;
 }
-
 
 export async function addComment(placeId, comment) {
   const url = `https://nextjs-dummydb-61545-default-rtdb.firebaseio.com/marks/${placeId}/comments.json`;
-  const response = axios({
+  const response = await axios({
     method: "post",
     url: url,
     data: JSON.stringify(comment),
+  });
+  return response;
+}
+
+//  event api-----------------------------------------------------------------
+export async function getOnePlaceEventsByPlaceId(placeId) {
+  const url = `https://nextjs-dummydb-61545-default-rtdb.firebaseio.com/marks/${placeId}/events`;
+  const response = await axios({
+    url: url,
   });
   return response;
 }

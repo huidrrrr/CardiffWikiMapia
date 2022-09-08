@@ -4,11 +4,7 @@ import { GoogleMap, Marker } from "@react-google-maps/api";
 
 type MapOptions = google.maps.MapOptions;
 export default function SmallMap(props: any) {
-  const { placeData } = props;
-  let position = { lat: 51.4837, lng: -3.1681 };
-  if (placeData) {
-    position = placeData.position;
-  }
+  let { position } = props;
 
   const options = useMemo<MapOptions>(
     () => ({
@@ -35,11 +31,15 @@ export default function SmallMap(props: any) {
       <GoogleMap
         mapContainerStyle={containerStyle}
         zoom={18}
-        center={position}
+        center={position ? position : { lat: 51.4837, lng: -3.1681 }}
         mapContainerClassName="map-container"
         options={options}
       >
-        <Marker position={position} />
+        {position && (
+          <Marker
+            position={position ? position : { lat: 51.4837, lng: -3.1681 }}
+          />
+        )}
       </GoogleMap>
     </div>
   );

@@ -79,6 +79,6 @@ export async function getStaticPaths() {
   }));
   return {
     paths: upperId,
-    fallback: true,
+    fallback: false,
   };
 }

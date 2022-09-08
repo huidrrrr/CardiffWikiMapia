@@ -18,6 +18,7 @@ export default function PlaceDetailCard(props) {
   return (
     <div>
       <Card
+        hoverable
         title={placeDetail.name}
         extra={
           <div
@@ -47,13 +48,14 @@ export default function PlaceDetailCard(props) {
         </div>
         <div className={styles.horizontalBox}>
           <p>Place Description:</p>
-          <p style={{
-            wordBreak:'break-all',
-            overflow:'hidden',
-            display:'-webkit-box',
-            WebkitLineClamp:2,
-            WebkitBoxOrient:'vertical'
-          }}
+          <p
+            style={{
+              wordBreak: "break-all",
+              overflow: "hidden",
+              display: "-webkit-box",
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: "vertical",
+            }}
           >
             {placeDetail.description}
           </p>

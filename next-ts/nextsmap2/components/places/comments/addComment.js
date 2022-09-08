@@ -101,9 +101,9 @@ const AddComment = (props) => {
       </span>
     </Tooltip>,
   ];
-  const { placeData } = props;
+  const { commentsData } = props;
 
-  const commentsInit = convertcomments(placeData.comments, actions);
+  const commentsInit = convertcomments(commentsData.comments, actions);
   const [comments, setComments] = useState(commentsInit);
   const [likes, setLikes] = useState(0);
   const [dislikes, setDislikes] = useState(0);
@@ -125,10 +125,10 @@ const AddComment = (props) => {
         datetime: currentTime,
       };
 
-      addComment(placeData.id, commentContent).then((res) => {
+      addComment(commentsData.placeId, commentContent).then((res) => {
         if (res.status === 200) {
           // get new all new data here------------------------------
-          getOnePlaceAllComments(placeData.id).then((res) => {
+          getOnePlaceAllComments(commentsData.placeId).then((res) => {
             const newComments = convertcomments(res.data, actions);
             setComments(newComments);
             // setComments(res.data);
