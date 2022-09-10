@@ -18,6 +18,7 @@ export default function PlaceDetailCard(props) {
   return (
     <div>
       <Card
+        style={{ minWidth: "20rem" }}
         hoverable
         title={placeDetail.name}
         extra={

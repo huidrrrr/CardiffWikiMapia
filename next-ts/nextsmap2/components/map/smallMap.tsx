@@ -21,13 +21,13 @@ export default function SmallMap(props: any) {
   });
 
   const containerStyle = {
-    width: " 45rem",
+    minWidth:'20rem',
     height: "28rem",
   };
 
   if (!isLoaded) return <div>Loading...</div>;
   return (
-    <div>
+    <div style={{flex:"4"}}>
       <GoogleMap
         mapContainerStyle={containerStyle}
         zoom={18}

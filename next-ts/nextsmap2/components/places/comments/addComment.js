@@ -56,6 +56,7 @@ const Editor = ({ onChange, onSubmit, submitting, value }) => (
 );
 const convertcomments = (comments, actions) => {
   const commentsList = [];
+
   for (const key in comments) {
     commentsList.push({
       author: comments[key].author ? comments[key].author : "Anonymous",
@@ -63,11 +64,20 @@ const convertcomments = (comments, actions) => {
         ? comments[key].avatar
         : "/images/noAvatar.png",
       content: comments[key].content,
-      datetime: comments[key].datetime,
+      datetime: new Date(comments[key].datetime),
       actions: actions,
     });
   }
-  return commentsList;
+  const sortedComments = commentsList.sort((a, b) => b.datetime - a.datetime);
+  sortedComments.forEach((comment) => { 
+    comment.datetime=<Tooltip title={moment(comment.datetime.getTime()).fromNow()}>
+    <span>{comment.datetime.toUTCString()}</span>
+  </Tooltip>
+   })
+
+
+
+  return sortedComments;
 };
 
 const AddComment = (props) => {
@@ -104,6 +114,7 @@ const AddComment = (props) => {
   const { commentsData } = props;
 
   const commentsInit = convertcomments(commentsData.comments, actions);
+
   const [comments, setComments] = useState(commentsInit);
   const [likes, setLikes] = useState(0);
   const [dislikes, setDislikes] = useState(0);

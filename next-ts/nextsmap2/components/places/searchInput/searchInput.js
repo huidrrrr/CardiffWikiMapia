@@ -56,7 +56,7 @@ const SearchInput = (props) => {
         }
         onSelect={searchHandler}
       />
-      <div>
+      <div style={{minWidth:'15rem'}}>
         <Radio.Group value={mode} onChange={handleModeChange}>
           <Radio.Button
             value="placeName"

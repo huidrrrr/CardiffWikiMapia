@@ -22,6 +22,10 @@ const CommentBox = (props) => {
     });
   }
 
+  commentsData.forEach((comment) => {
+    comment.datetime = new Date(comment.datetime);
+  });
+
   const like = () => {
     setLikes(1);
     setDislikes(0);
@@ -49,7 +53,6 @@ const CommentBox = (props) => {
         <span className="comment-action">{dislikes}</span>
       </span>
     </Tooltip>,
-    
   ];
   if (!placeData) {
     return <p>Loading...</p>;

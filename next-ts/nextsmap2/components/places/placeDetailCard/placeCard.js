@@ -18,7 +18,7 @@ const PlaceCard = (props) => {
     return (
       <Card
         style={{
-          width: 300,
+          flex: 1,
         }}
         cover={
           <Image

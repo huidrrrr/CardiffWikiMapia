@@ -70,3 +70,19 @@ export async function getOnePlaceEventsByPlaceId(placeId) {
   });
   return response;
 }
+
+export async function addOneEventToDraft(event, placeId, editorId,currentTime) {
+  const url = `https://nextjs-dummydb-61545-default-rtdb.firebaseio.com/draft.json`;
+  const eventData = {
+    placeId: placeId,
+    editorId: editorId,
+    event: event,
+    editedTime:currentTime
+  };
+  const response = await axios({
+    method: "post",
+    url: url,
+    data: JSON.stringify(eventData),
+  });
+  return response;
+}

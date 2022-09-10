@@ -16,8 +16,7 @@ export default function MissingPlaceForm(props) {
 
   // upload image-------------------------------------------------
   const onChange = (fileList) => {
-    console.log(fileList);
-    fileToBase64(fileList.file.originFileObj, (value) => {
+    fileToBase64(fileList.fileList[0].originFileObj, (value) => {
       setImgBase64(value);
       setFileList(fileList.fileList);
     });
@@ -63,9 +62,10 @@ export default function MissingPlaceForm(props) {
       events: {},
       comments: {},
       upperId:1
+      
     };
     addOneMissingPlace(newPlace).then((res) => {
-      if (res.status === "200") {
+      if (res.status === 200) {
         
         message.info("Add place successfully!");
       }
@@ -135,7 +135,7 @@ export default function MissingPlaceForm(props) {
         <Form.Item label="Image">
           <ImgCrop rotate>
             <Upload
-
+              beforeUpload={() => false}
               listType="picture-card"
               fileList={fileList}
               onChange={onChange}

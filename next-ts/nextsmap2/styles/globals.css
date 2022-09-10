@@ -23,6 +23,7 @@ a {
 }
 
 .controls {
+  min-width: 22rem;
   width: 20%;
   padding: 1rem;
   background-color: #001529;
@@ -86,4 +87,12 @@ a {
   width: 100%;
 }
 
-
+/* .ant-tooltip-inner{
+  visibility: hidden;
+} */
+.ant-upload-list-item-error{
+  border-color: none;
+}
+/* .ant-tooltip-placement-top, .ant-tooltip-placement-topLeft, .ant-tooltip-placement-topRight{
+  visibility: hidden;
+} */
