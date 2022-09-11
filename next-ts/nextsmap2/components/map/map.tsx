@@ -34,10 +34,19 @@ export default function Map(props: any) {
   const { places } = props;
   const [placeData, setPlaceData] = useState<any>(places);
   // set map default center-----------------------------------------------------
-  const center = useMemo<LatLngLiteral>(
-    () => ({ lat: 51.4837, lng: -3.1681 }),
-    []
-  );
+  const [center, setCenter] = useState<LatLngLiteral>({
+    lat: 51.4837,
+    lng: -3.1681,
+  });
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      const currentCenter = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      };
+      setCenter(currentCenter);
+    });
+  }, []);
   const options = useMemo<MapOptions>(
     () => ({
       mapId: "7f4dd82f5e97eadb",
@@ -96,6 +105,10 @@ export default function Map(props: any) {
   const onClose = () => {
     setDrawerVisible(false);
   };
+  const resetLoaction = () => {
+    setOffice(undefined);
+    mapRef.current?.panTo(center);
+  };
 
   return (
     <div className="container">
@@ -107,6 +120,7 @@ export default function Map(props: any) {
           }}
           placeDataIsValid={place ? true : false}
           callSonComp={showDrawer}
+          resetLoaction={resetLoaction}
         />
         {directions && <Distance leg={directions.routes[0].legs[0]} />}
         {placeDetail && <PlaceDetailCard placeDetail={placeDetail} />}
@@ -137,32 +151,78 @@ export default function Map(props: any) {
             />
           )}
 
-          {office && (
+          {office ? (
             <>
               <Marker position={office} icon={homeIcon} />
 
               {placeData && (
                 <MarkerClusterer>
                   {(clusterer) =>
-                    placeData.map((event: any) => (
-                      <Marker
-                        key={event.id}
-                        position={event.position}
-                        icon={{
-                          url:
-                            event.category === "other"
-                              ? "/icons/event.svg"
-                              : "/icons/" + event.category + ".svg", // url
-                          scaledSize: new google.maps.Size(30, 30), // scaled size
-                          origin: new google.maps.Point(0, 0), // origin
-                        }}
-                        clusterer={clusterer}
-                        onClick={() => {
-                          fetchDirections(event.position);
-                          showDetail(event);
-                        }}
-                      />
-                    ))
+                    placeData.map(
+                      (event: any) =>
+                        event.position.lat < office.lat + 0.1 &&
+                        event.position.lat > office.lat - 0.1 &&
+                        event.position.lng < office.lng + 0.1 &&
+                        event.position.lng > office.lng - 0.1 && (
+                          <Marker
+                            key={event.id}
+                            position={event.position}
+                            icon={{
+                              url:
+                                event.category === "other"
+                                  ? "/icons/event.svg"
+                                  : "/icons/" + event.category + ".svg", // url
+                              scaledSize: new google.maps.Size(30, 30), // scaled size
+                              origin: new google.maps.Point(0, 0), // origin
+                            }}
+                            clusterer={clusterer}
+                            onClick={() => {
+                              fetchDirections(event.position);
+                              showDetail(event);
+                            }}
+                          />
+                        )
+                    )
+                  }
+                </MarkerClusterer>
+              )}
+
+              <Circle center={office} radius={500} options={closeOptions} />
+              <Circle center={office} radius={1000} options={middleOptions} />
+              <Circle center={office} radius={1500} options={farOptions} />
+            </>
+          ) : (
+            <>
+              <Marker position={center!} icon={homeIcon} />
+
+              {placeData && (
+                <MarkerClusterer>
+                  {(clusterer) =>
+                    placeData.map(
+                      (event: any) =>
+                        event.position.lat < center.lat + 0.1 &&
+                        event.position.lat > center.lat - 0.1 &&
+                        event.position.lng < center.lng + 0.1 &&
+                        event.position.lng > center.lng - 0.1 && (
+                          <Marker
+                            key={event.id}
+                            position={event.position}
+                            icon={{
+                              url:
+                                event.category === "other"
+                                  ? "/icons/event.svg"
+                                  : "/icons/" + event.category + ".svg", // url
+                              scaledSize: new google.maps.Size(30, 30), // scaled size
+                              origin: new google.maps.Point(0, 0), // origin
+                            }}
+                            clusterer={clusterer}
+                            onClick={() => {
+                              fetchDirections(event.position);
+                              showDetail(event);
+                            }}
+                          />
+                        )
+                    )
                   }
                 </MarkerClusterer>
               )}

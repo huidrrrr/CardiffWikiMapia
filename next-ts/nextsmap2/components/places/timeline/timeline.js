@@ -19,6 +19,7 @@ const App = (props) => {
 
   return (
     <div>
+      
       <Timeline mode="alternate">
         {sortedEvents.map((event) => (
           <Timeline.Item

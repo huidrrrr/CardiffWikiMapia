@@ -17,6 +17,15 @@ const EventForm = (props) => {
     },
   ]);
 
+  const eventFormInitialData={
+    name: event.name,
+    subtitle: event.subtitle,
+    content: event.content,
+    upperId: event.upperId,
+  }
+  const [eventForm] = Form.useForm();
+
+
   //   check status change-----------------------------------
   useEffect(() => {
     setComponentDisabled(initComponentDisabled);
@@ -25,6 +34,7 @@ const EventForm = (props) => {
   // call function when values change---------------------------
   const onValuesChange = (changedValues, allValues) => {
     props.changeValues(allValues);
+    // eventForm.setFieldsValue(eventFormInitialData)
   };
   //  img upload--------------------------------------------------------
   const onChange = (fileList) => {
@@ -70,6 +80,7 @@ const EventForm = (props) => {
   return (
     <div>
       <Form
+      form={eventForm}
         onValuesChange={onValuesChange}
         initialValues={{
           name: event.name,

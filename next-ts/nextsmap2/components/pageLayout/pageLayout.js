@@ -41,12 +41,12 @@ const items1 = [
     ),
   ]),
   getItem("Map", "map", <CompassOutlined />, [
-    getItem("Browse Places", "browsePlace"),
+    getItem("Browse map", "browsePlace"),
   ]),
   getItem("Places", "places", <UnorderedListOutlined />, [
-    getItem("Places List", "placeList"),
+    getItem("Browse all places", "placeList"),
     getItem("Add Places", "addPlaceList"),
-    getItem("History of Places", "historyPlaces"),
+    getItem("Uploaded places", "historyPlaces"),
   ]),
 ];
 

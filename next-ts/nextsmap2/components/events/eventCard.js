@@ -16,13 +16,13 @@ const tabList = [
   },
 ];
 
-const App = (props) => {
+const  App = (props) => {
   const [activeTabKey1, setActiveTabKey1] = useState("introduction");
   const [componentDisabled, setComponentDisabled] = useState(true);
   const [inputBorder, setInputBorder] = useState(false);
   const [formValues,setFormValues]=useState([])
   const [event,setEvent]=useState(props.event)
-
+  const eventSonForm = Form.useFormInstance();
 
   const valuesChangeHandler = (allValues) => {
     setFormValues(allValues);
@@ -71,7 +71,7 @@ const App = (props) => {
 
   const updateEvent = () => {
     const currentTime = new Date().toLocaleString() + "";
-    
+
     addOneEventToDraft(formValues,props.placeId,1,currentTime).then((res) => { 
       if(res.status===200){
         setComponentDisabled(true);

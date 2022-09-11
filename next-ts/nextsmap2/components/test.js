@@ -1,34 +1,96 @@
-import { Anchor, Form, Input } from "antd";
+import { Button, Checkbox, Form, Input } from "antd";
 import React from "react";
-import moment from "moment";
-const { Link } = Anchor;
 
 const App = () => {
-  const lst = [
-    { id: "1", date: "1/09/2022, 16:14:39", label: "latest" },
-    { id: "3", date: "8/09/2022, 07:14:39", label: "earliest" },
-    { id: "2", date: "9/10/2022, 16:14:39", label: "middle" },
-    { id: "4", date: "4/09/2022, 16:14:39", label: "middle" },
-    { id: "5", date: "9/09/2022, 05:14:39", label: "middle" },
-    { id: "9", date: "9/09/2022, 20:14:39", label: "middle" },
-  ];
-  lst.forEach((ele) => { 
-    ele.date=new Date(ele.date)
-   })
-   
+  const onFinish = (values) => {
+    console.log("Success:", values);
+  };
 
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+  };
 
-  const sortedActivities = lst.sort((a, b) => b.date - a.date);
+  const [form] = Form.useForm();
+  const setUsername =()=>{
+    form.setFieldsValue({
+      username:'ni die',
+      password:'123'
+    })
+  }
   return (
-    <div>
-      {sortedActivities.map((ele) => (
-        <li key={ele.id}>
-          {ele.date.toUTCString()}
-          <span style={{color:'red'}}>{moment(ele.date.getTime()).fromNow()}</span>
-          
-        </li>
-      ))}
-    </div>
+    <Form
+      form={form}
+      labelCol={{
+        span: 8,
+      }}
+      wrapperCol={{
+        span: 16,
+      }}
+      initialValues={{
+        remember: true,
+      }}
+      onFinish={onFinish}
+      onFinishFailed={onFinishFailed}
+      autoComplete="off"
+    >
+      <Form.Item
+        label="Username"
+        name="username"
+        rules={[
+          {
+            required: true,
+            message: "Please input your username!",
+          },
+        ]}
+      >
+        <Input />
+      </Form.Item>
+
+      <Form.Item
+        label="Password"
+        name="password"
+        rules={[
+          {
+            required: true,
+            message: "Please input your password!",
+          },
+        ]}
+      >
+        <Input.Password />
+      </Form.Item>
+
+      <Form.Item
+        name="remember"
+        valuePropName="checked"
+        wrapperCol={{
+          offset: 8,
+          span: 16,
+        }}
+      >
+        <Checkbox>Remember me</Checkbox>
+      </Form.Item>
+
+      <Form.Item
+        wrapperCol={{
+          offset: 8,
+          span: 16,
+        }}
+      >
+        <Button type="primary" htmlType="submit">
+          Submit
+        </Button>
+      </Form.Item>
+      <Form.Item
+        wrapperCol={{
+          offset: 8,
+          span: 16,
+        }}
+      >
+        <Button type="primary" onClick={setUsername}>
+          SetInfo
+        </Button>
+      </Form.Item>
+    </Form>
   );
 };
 
