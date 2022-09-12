@@ -2,6 +2,7 @@ import { SmileOutlined } from "@ant-design/icons";
 import { Timeline } from "antd";
 import React from "react";
 import EventCard from "../../events/eventCard";
+import AddEventCard from '../../events/addEventCard'
 
 const App = (props) => {
   const { eventsData } = props;
@@ -14,13 +15,12 @@ const App = (props) => {
     event.date = new Date(event.date);
   });
 
-  const sortedEvents = events.sort((a, b) => b.date - a.date);
-  console.log(sortedEvents);
+  const sortedEvents = events.sort((a, b) => a.date - b.date);
 
   return (
     <div>
       
-      <Timeline mode="alternate">
+      <Timeline mode="alternate" pending={<AddEventCard placeId={placeId} />} reverse={true}>
         {sortedEvents.map((event) => (
           <Timeline.Item
             key={event.id}

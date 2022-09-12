@@ -55,7 +55,7 @@ export default function PlaceHistoryList(props) {
 
 export async function getStaticProps(context) {
   const { upperId } = context.params;
-  const places = await getOneUpperPlaces(parseInt(upperId));
+  const places = await getOneUpperPlaces(upperId);
   // set place name list ------------------------------
   const placeNameList = places.map((place) => place.name);
 
@@ -67,6 +67,7 @@ export async function getStaticProps(context) {
       filteredPlaces: places,
       placeNameList: placeNameList,
       placeCategoryList: placeCategoryList,
+      userType:'user'
     },
     revalidate: 1800,
   };
@@ -75,7 +76,7 @@ export async function getStaticProps(context) {
 export async function getStaticPaths() {
   const places = await getAllPlaces();
   const upperId = places.map((place) => ({
-    params: { upperId: place.upperId.toString() },
+    params: { upperId: place.upperId },
   }));
   return {
     paths: upperId,

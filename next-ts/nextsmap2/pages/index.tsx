@@ -1,26 +1,14 @@
 import React from "react";
 import Test from "../components/test";
-import { GetAllPlaces } from "../components/helper/placeApiUtil";
-import { getAllPlaces } from "../components/helper/apiUtil";
-import BrowseMap from "../components/map/browseMap";
-import axios from "axios";
-export default function Home(props: any) {
-  const { places } = props;
+import Login from "../components/logInOut/loginForm";
 
+export default function Home() {
   return (
     <div>
-      <Test />
+      <div></div>
+      <div style={{ width: "max-content", margin: "16rem auto" }}>
+        <Login />
+      </div>
     </div>
   );
 }
-
-// export async function getStaticProps() {
-//   const placesData = await getAllPlaces();
-
-//   return {
-//     props: {
-//       places: placesData,
-//     },
-//     revalidate: 1800,
-//   };
-// }

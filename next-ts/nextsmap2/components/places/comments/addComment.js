@@ -9,6 +9,7 @@ import {
   Tooltip,
 } from "antd";
 import moment from "moment";
+import { ReactSession } from "react-client-session";
 import {
   DislikeFilled,
   DislikeOutlined,
@@ -130,8 +131,9 @@ const AddComment = (props) => {
       setSubmitting(false);
       setValue("");
       const commentContent = {
-        author: "peter",
-        avatar: "https://joeschmoe.io/api/v1/random",
+        authorId:ReactSession.get("id"),
+        author: ReactSession.get("username"),
+        avatar: commentsData.upperAvatar,
         content: value,
         datetime: currentTime,
       };
@@ -160,7 +162,7 @@ const AddComment = (props) => {
       {comments.length > 0 && <CommentList comments={comments} />}
       <Comment
         avatar={
-          <Avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />
+          <Avatar src={commentsData.upperAvatar} alt="Han Solo" />
         }
         content={
           <Editor

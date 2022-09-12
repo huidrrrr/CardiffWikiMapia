@@ -5,3 +5,10 @@ export default function AddPlaceListPage() {
     <AddPlaceForm/>
   )
 }
+export async function getStaticProps(){
+  return {
+    props:{
+      userType:'user'
+    }
+  }
+}

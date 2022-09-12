@@ -47,6 +47,7 @@ export async function getOneUpperPlaces(id) {
 export async function getOnePlaceAllComments(placeId) {
   const url = `https://nextjs-dummydb-61545-default-rtdb.firebaseio.com/marks/${placeId}/comments.json`;
   const response = await axios({
+    method:'get',
     url: url,
   });
   return response;
@@ -66,6 +67,7 @@ export async function addComment(placeId, comment) {
 export async function getOnePlaceEventsByPlaceId(placeId) {
   const url = `https://nextjs-dummydb-61545-default-rtdb.firebaseio.com/marks/${placeId}/events`;
   const response = await axios({
+    method:'get',
     url: url,
   });
   return response;

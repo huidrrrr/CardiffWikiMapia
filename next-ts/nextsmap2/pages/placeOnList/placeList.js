@@ -56,6 +56,7 @@ export async function getStaticProps() {
       places: places,
       placeNameList: placeNameList,
       placeCategoryList: placeCategoryList,
+      userType:'user'
     },
     revalidate: 1800,
   };

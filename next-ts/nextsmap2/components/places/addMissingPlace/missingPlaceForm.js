@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Form, Input, Button, Select, message, Upload } from "antd";
 import ImgCrop from "antd-img-crop";
 import { addOneMissingPlace, getPlusCode } from "../../helper/apiUtil";
+import { ReactSession } from "react-client-session";
 const { TextArea } = Input;
 export default function MissingPlaceForm(props) {
   // image base64-------------------------------
@@ -10,6 +11,7 @@ export default function MissingPlaceForm(props) {
   // pluscode--------------------------------------
   const [plusCode, setPlusCode] = useState();
   const { position } = props;
+  const currentTime = new Date();
   getPlusCode(position).then((res) => {
     setPlusCode(res);
   });
@@ -61,12 +63,12 @@ export default function MissingPlaceForm(props) {
       img: imgBase64,
       events: {},
       comments: {},
-      upperId:1
+      date:currentTime.toDateString(),
+      upperId:ReactSession.get("id")
       
     };
     addOneMissingPlace(newPlace).then((res) => {
       if (res.status === 200) {
-        
         message.info("Add place successfully!");
       }
     });

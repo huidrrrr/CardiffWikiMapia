@@ -15,19 +15,13 @@ export default function SmallMap(props: any) {
     []
   );
 
-  const { isLoaded } = useLoadScript({
-    googleMapsApiKey: "AIzaSyD0EITvU6aSQn9zF8fSXHQ5Dd0MjF5Q7aI",
-    libraries: ["places"],
-  });
-
   const containerStyle = {
-    minWidth:'20rem',
+    minWidth: "20rem",
     height: "28rem",
   };
 
-  if (!isLoaded) return <div>Loading...</div>;
   return (
-    <div style={{flex:"4"}}>
+    <div style={{ flex: "4" }}>
       <GoogleMap
         mapContainerStyle={containerStyle}
         zoom={18}

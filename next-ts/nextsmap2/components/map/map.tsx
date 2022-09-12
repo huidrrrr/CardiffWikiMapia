@@ -11,7 +11,6 @@ import PlaceDetailCard from "../places/placeDetailCard/placeDetailCard";
 import { CloseOutlined } from "@ant-design/icons";
 import BrowsePlaceSideBar from "../mapSideBar/browsePlaceSideBar";
 import { Button, Drawer, Tooltip, message } from "antd";
-import { ReactSession } from "react-client-session";
 import MissPlaceForm from "../../components/places/addMissingPlace/missingPlaceForm";
 type LatLngLiteral = google.maps.LatLngLiteral;
 type DirectionsResult = google.maps.DirectionsResult;
@@ -45,6 +44,7 @@ export default function Map(props: any) {
         lng: position.coords.longitude,
       };
       setCenter(currentCenter);
+      setOffice(currentCenter)
     });
   }, []);
   const options = useMemo<MapOptions>(

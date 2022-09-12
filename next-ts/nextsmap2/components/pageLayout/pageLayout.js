@@ -35,7 +35,7 @@ const items1 = [
         getItem("Home", "home"),
         getItem("Profile", "profile"),
         getItem("Setting", "setting"),
-        getItem("Log in/out", "logInOut"),
+        getItem("Log out", "logOut"),
       ],
       "group"
     ),
@@ -61,9 +61,9 @@ export default function PageLayout(props) {
     switch (keyPath[1]) {
       case "user":
         if (keyPath[0] === "home") {
-          path = `/`;
+          path = `/user/user`;
           Router.push(path);
-        } else if (keyPath[0] === "logInOut") {
+        } else if (keyPath[0] === "logOut") {
           const usernameIsValid = ReactSession.get("username");
           if (!usernameIsValid) {
             console.log("go login");
@@ -84,7 +84,7 @@ export default function PageLayout(props) {
 
       case "places":
         if (keyPath[0] === "historyPlaces") {
-          const upperId = 1;
+          const upperId = ReactSession.get("id");
           path = `/placeOnList/${upperId}`;
           Router.push(path);
           break;

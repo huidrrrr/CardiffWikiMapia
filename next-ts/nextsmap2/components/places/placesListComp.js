@@ -31,6 +31,18 @@ const PlaceListComp = (props) => {
 
   return (
     <div>
+            <Pagination
+            style={{
+              marginBottom:'1rem'
+            }}
+        pageSize={pageSize}
+        pageSizeOptions={[3, 6, 9, 12]}
+        showSizeChanger={true}
+        onShowSizeChange={sizeChangeHandler}
+        onChange={handleChange}
+        current={current}
+        total={places.length}
+      />
       <List
         grid={{
           gutter: 16,
@@ -52,15 +64,7 @@ const PlaceListComp = (props) => {
         }
       />
 
-      <Pagination
-        pageSize={pageSize}
-        pageSizeOptions={[3, 6, 9, 12]}
-        showSizeChanger={true}
-        onShowSizeChange={sizeChangeHandler}
-        onChange={handleChange}
-        current={current}
-        total={places.length}
-      />
+
     </div>
   );
 };

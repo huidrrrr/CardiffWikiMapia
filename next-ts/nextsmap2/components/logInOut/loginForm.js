@@ -1,38 +1,45 @@
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Form, Input } from "antd";
-import { ReactSession } from "react-client-session";
+import { Button, Checkbox, Form, Input, message } from "antd";
 import React from "react";
-import Link from "next/link";
-import axios from "axios";
 import Router from "next/router";
-const LoginForm = () => {
+import { getUserById } from "../helper/userApiUtil";
+import { ReactSession } from "react-client-session";
+
+const App = () => {
   const onFinish = (values) => {
-    const { username, password } = values;
-
-    const response = axios.get(`http://localhost:8080/user/${username}`);
-
-    response.then((res) => {
-      if (res) {
-        if (res.data.password === password) {
-          ReactSession.set("username", username);
-          let path = `/`;
-          Router.push(path);
+    getUserById(values.username).then((res) => {
+      if (res.status === 200) {
+        if (res.data) {
+          if (res.data.password === values.password) {
+            ReactSession.set("username", res.data.username);
+            ReactSession.set("id", values.username);
+            ReactSession.set("permission", res.data.permission);
+            if (res.data.permission === "user") {
+              Router.push("/user/user");
+            } else if (res.data.permission === "admin") {
+              Router.push("/user/admin");
+            }
+          } else {
+            message.warn("Wrong password!");
+          }
         } else {
-          alert("Wrong username or password");
+          message.warn("Username does not exist!");
         }
+      } else {
+        message.error("Server error");
       }
     });
   };
 
   return (
     <Form
+      style={{ width: "300px" }}
       name="normal_login"
       className="login-form"
       initialValues={{
         remember: true,
       }}
       onFinish={onFinish}
-      style={{display:"flex",flexDirection:"column"}}
     >
       <Form.Item
         name="username"
@@ -64,23 +71,23 @@ const LoginForm = () => {
         />
       </Form.Item>
       <Form.Item>
-        <Form.Item name="remember" valuePropName="checked" noStyle>
-          <Checkbox>Remember me</Checkbox>
-        </Form.Item>
-
-        <Link className="login-form-forgot" href="">
-          Forgot password
-        </Link>
-      </Form.Item>
-
-      <Form.Item>
-        <Button type="primary" htmlType="submit" className="login-form-button">
+        <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
           Log in
         </Button>
-        Or <Link href="/logInOut/register">register now!</Link>
+      </Form.Item>
+      <Form.Item>
+        {/* <Form.Item name="remember" valuePropName="checked" noStyle>
+          <Checkbox>Remember me</Checkbox>
+        </Form.Item> */}
+        <a style={{ float: "left", color: "#1890ff" }} href="">
+          Forgot password
+        </a>
+        <a href="" style={{ float: "right", color: "#1890ff" }}>
+          register now!
+        </a>
       </Form.Item>
     </Form>
   );
 };
 
-export default LoginForm;
+export default App;

@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import { useLoadScript } from "@react-google-maps/api";
 import SmallMap from "../../components/map/smallMap";
 import {
   getAllPlaces,
@@ -10,46 +11,59 @@ import PlaceCard from "../../components/places/placeDetailCard/placeCard";
 import styles from "./index.module.css";
 import Comment from "../../components/places/comments/addComment";
 import Timeline from "../../components/places/timeline/timeline";
+import BackTop from "../../components/pageLayout/backTop";
+import { getUserById } from "../../components/helper/userApiUtil";
 import { Collapse } from "antd";
 const { Panel } = Collapse;
 export default function PlaceDetailPage(props) {
-  const { place } = props;
-  const [placeData, setPlaceData] = useState(place);
-  const { events } = place;
+  const {place} = props
+  // const [place, setPlace] = useState(props.place);
+  const [upperData, setUpperData] = useState({});
 
-
-  useEffect(() => {
-    setPlaceData(place);
-  }, [place]);
+  const [ libraries ] = useState(['places']);
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: "AIzaSyD0EITvU6aSQn9zF8fSXHQ5Dd0MjF5Q7aI",
+    libraries: libraries,
+  });
+  if (!isLoaded) return <div>Loading...</div>;
   if (!place) {
     return <p>Loading...</p>;
   }
+  getUserById(place.upperId).then((res) => {
+    setUpperData(res.data);
+  });
   const placeDetailData = {
-    id: placeData.id,
-    name: placeData.name,
-    img: placeData.img,
-    upperName: "Peter",
-    upperAvatar: "https://joeschmoe.io/api/v1/random",
-    uploadDate: "2022-07-29",
+    id: place.id,
+    name: place.name,
+    img: place.img,
+    upperName: upperData.username,
+    upperAvatar: upperData.avatar,
+    uploadDate: place.date,
   };
-  const eventsList=[]
-  for(const key in placeData.events){
+  const eventsList = [];
+  for (const key in place.events) {
     eventsList.push({
-      id:key,
-      ...placeData.events[key]
-    })
+      id: key,
+      ...place.events[key],
+    });
   }
 
   const eventsData = {
-    placeId: placeData.id,
+    upperName: upperData.username,
+    upperAvatar: upperData.avatar,
+    uploadDate: place.date,
+    placeId: place.id,
     events: eventsList,
   };
   const commentsData = {
-    placeId: placeData.id,
-    comments: placeData.comments,
+    upperName: upperData.username,
+    upperAvatar: upperData.avatar,
+    uploadDate: place.date,
+    placeId: place.id,
+    comments: place.comments,
   };
 
-  const position = placeData.position;
+  const position = place.position;
 
   return (
     <div className={styles.content}>
@@ -70,6 +84,7 @@ export default function PlaceDetailPage(props) {
           </Panel>
         </Collapse>
       </div>
+      <BackTop />
     </div>
   );
 }
@@ -81,6 +96,7 @@ export async function getStaticProps(context) {
   return {
     props: {
       place: place,
+      userType: "user",
     },
     revalidate: 1800,
   };
