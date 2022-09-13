@@ -14,25 +14,30 @@ import Timeline from "../../components/places/timeline/timeline";
 import BackTop from "../../components/pageLayout/backTop";
 import { getUserById } from "../../components/helper/userApiUtil";
 import { Collapse } from "antd";
+import PlaceDetailInfo from "../../components/places/placeDetailForm";
 const { Panel } = Collapse;
 export default function PlaceDetailPage(props) {
-  const {place} = props
+  const { place } = props;
   // const [place, setPlace] = useState(props.place);
   const [upperData, setUpperData] = useState({});
 
-  const [ libraries ] = useState(['places']);
+  const [libraries] = useState(["places"]);
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: "AIzaSyD0EITvU6aSQn9zF8fSXHQ5Dd0MjF5Q7aI",
     libraries: libraries,
   });
+
+  useEffect(() => {
+    getUserById(place.upperId).then((res) => {
+      setUpperData(res.data);
+    });
+  },[]);
   if (!isLoaded) return <div>Loading...</div>;
   if (!place) {
     return <p>Loading...</p>;
   }
-  getUserById(place.upperId).then((res) => {
-    setUpperData(res.data);
-  });
-  const placeDetailData = {
+
+  const placeData = {
     id: place.id,
     name: place.name,
     img: place.img,
@@ -46,6 +51,15 @@ export default function PlaceDetailPage(props) {
       id: key,
       ...place.events[key],
     });
+  }
+  const placeDetailData={
+    id: place.id,
+    name: place.name,
+    img: place.img,
+    description: place.description,
+    category: place.category,
+    upperName: upperData.username,
+    uploadDate: place.date,
   }
 
   const eventsData = {
@@ -68,13 +82,13 @@ export default function PlaceDetailPage(props) {
   return (
     <div className={styles.content}>
       <div className={styles.detailBox}>
-        <PlaceCard placeDetailData={placeDetailData} />
+        <PlaceCard placeDetailData={placeData} />
         <SmallMap position={position} />
       </div>
       <div>
         <Collapse bordered={false} defaultActiveKey={["1"]}>
           <Panel header="Place detail" key="1">
-            <div></div>
+            <PlaceDetailInfo placeDetailData={placeDetailData}></PlaceDetailInfo>
           </Panel>
           <Panel header="Timeline" key="2">
             <Timeline eventsData={eventsData} />

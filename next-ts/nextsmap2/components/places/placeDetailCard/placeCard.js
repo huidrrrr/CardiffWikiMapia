@@ -33,7 +33,7 @@ const PlaceCard = (props) => {
         <Meta
           avatar={<Avatar src={placeDetailData.upperAvatar} />}
           title={placeDetailData.upperName}
-          description={"added by"}
+          description={""}
         />
       </Card>
     );

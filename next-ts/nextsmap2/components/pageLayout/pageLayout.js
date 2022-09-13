@@ -34,7 +34,6 @@ const items1 = [
       [
         getItem("Home", "home"),
         getItem("Profile", "profile"),
-        getItem("Setting", "setting"),
         getItem("Log out", "logOut"),
       ],
       "group"
@@ -105,7 +104,7 @@ export default function PageLayout(props) {
         className="header"
         style={{ color: "white", display: "flex", fontSize: "xx-large" }}
       >
-        <Link className="logo" href="/">
+        <Link className="logo" href="/user/user">
           WikiMapia
         </Link>
       </Header>
@@ -138,7 +137,8 @@ export default function PageLayout(props) {
             style={{
               padding: 24,
               margin: 0,
-              minHeight: 280,
+              minHeight: "51rem",
+              
             }}
           >
             {props.children}
