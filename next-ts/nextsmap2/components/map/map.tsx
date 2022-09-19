@@ -110,6 +110,11 @@ export default function Map(props: any) {
     mapRef.current?.panTo(center);
   };
 
+
+  const refreshPageHandler=(places:any)=>{
+    setPlaceData(places)
+  }
+
   return (
     <div className="container">
       <div className="controls">
@@ -153,7 +158,7 @@ export default function Map(props: any) {
 
           {office ? (
             <>
-              <Marker position={office} icon={homeIcon} />
+              <Marker position={office} />
 
               {placeData && (
                 <MarkerClusterer>
@@ -264,7 +269,7 @@ export default function Map(props: any) {
                 shape="circle"
               ></Button>
             </Tooltip>
-            <MissPlaceForm position={place} />
+            <MissPlaceForm position={place} refreshPage={refreshPageHandler}/>
           </Drawer>
         </GoogleMap>
       </div>

@@ -13,29 +13,21 @@ import Comment from "../../components/places/comments/addComment";
 import Timeline from "../../components/places/timeline/timeline";
 import BackTop from "../../components/pageLayout/backTop";
 import { getUserById } from "../../components/helper/userApiUtil";
-import { Collapse } from "antd";
+import { Collapse, DatePicker, Radio } from "antd";
 import PlaceDetailInfo from "../../components/places/placeDetailForm";
+import SelectPanel from "../../components/events/selectPanel";
+import DateSelector from "../../components/events/dateSelector";
+import moment from "moment";
+const { RangePicker } = DatePicker;
 const { Panel } = Collapse;
 export default function PlaceDetailPage(props) {
   const { place } = props;
   // const [place, setPlace] = useState(props.place);
   const [upperData, setUpperData] = useState({});
 
-  const [libraries] = useState(["places"]);
-  const { isLoaded } = useLoadScript({
-    googleMapsApiKey: "AIzaSyD0EITvU6aSQn9zF8fSXHQ5Dd0MjF5Q7aI",
-    libraries: libraries,
-  });
-
-  useEffect(() => {
-    getUserById(place.upperId).then((res) => {
-      setUpperData(res.data);
-    });
-  },[]);
-  if (!isLoaded) return <div>Loading...</div>;
-  if (!place) {
-    return <p>Loading...</p>;
-  }
+  // date filter state----------------------------------
+  const [filterMode, setFilterMode] = useState("descent");
+  const [reverseState, setReverseState] = useState(true);
 
   const placeData = {
     id: place.id,
@@ -52,7 +44,15 @@ export default function PlaceDetailPage(props) {
       ...place.events[key],
     });
   }
-  const placeDetailData={
+  let eventsToSort = JSON.parse(JSON.stringify(eventsList));
+  eventsToSort.forEach((event) => {
+    event.date = new Date(event.date);
+  });
+  const allSortEvents = eventsToSort.sort((a, b) => a.date - b.date);
+  const [eventsInRange,setEventsInRange]=useState(allSortEvents);
+  const [events, setEvents] = useState(eventsInRange);
+
+  const placeDetailData = {
     id: place.id,
     name: place.name,
     img: place.img,
@@ -60,14 +60,14 @@ export default function PlaceDetailPage(props) {
     category: place.category,
     upperName: upperData.username,
     uploadDate: place.date,
-  }
+  };
 
   const eventsData = {
     upperName: upperData.username,
     upperAvatar: upperData.avatar,
     uploadDate: place.date,
     placeId: place.id,
-    events: eventsList,
+    events: events,
   };
   const commentsData = {
     upperName: upperData.username,
@@ -77,7 +77,74 @@ export default function PlaceDetailPage(props) {
     comments: place.comments,
   };
 
+  const eventYearLst = eventsList.map((event) =>
+    new Date(moment().format(event.date)).getFullYear()
+  );
+  const yearlst = unique(eventYearLst);
+
+  const eventMonthLst = eventsList.map(
+    (event) => new Date(moment().format(event.date)).getMonth() + 1
+  );
+  const monthlst = unique(eventMonthLst);
+  function unique(arr) {
+    return Array.from(new Set(arr));
+  }
+
+  const datelst = {
+    yearlst: yearlst,
+    monthlst: monthlst,
+  };
+
   const position = place.position;
+  const rangeOnChange = (dates, dateStrings) => {
+    if (dates) {
+      const sortedEvents = events.filter(
+        (event) =>
+          new Date(dates[0]).getTime() <= new Date(event.date).getTime() &&
+          new Date(dates[1]).getTime() >= new Date(event.date).getTime()
+      );
+      setEventsInRange(sortedEvents);
+    } else {
+      setEventsInRange(allSortEvents);
+    }
+  };
+  const radioOnChange=(e)=>{
+    if(e.target.value==='all'){
+      setEvents(eventsInRange)
+    }else if(e.target.value==='past'){
+      const sortedEvents = eventsInRange.filter(
+        (event) =>
+          new Date(moment().format()).getTime() > new Date(event.date).getTime()
+          
+      );
+      setEvents(sortedEvents)
+    }else if(e.target.value==='future'){
+      const sortedEvents = eventsInRange.filter(
+        (event) =>
+          new Date(moment().format()).getTime() < new Date(event.date).getTime()
+          
+      );
+      setEvents(sortedEvents)
+    }else if(e.target.value==='present'){
+      const sortedEvents = eventsInRange.filter(
+        (event) =>
+          new Date(moment().format()).getTime() === new Date(event.date).getTime()
+          
+      );
+      setEvents(sortedEvents)
+    }
+  }
+  useEffect(() => { 
+    setEvents(eventsInRange)
+   },[eventsInRange])
+
+
+  useEffect(() => {
+    getUserById(place.upperId).then((res) => {
+      setUpperData(res.data);
+    });
+  }, []);
+  if (!place) return <div>Loading...</div>;
 
   return (
     <div className={styles.content}>
@@ -88,10 +155,23 @@ export default function PlaceDetailPage(props) {
       <div>
         <Collapse bordered={false} defaultActiveKey={["1"]}>
           <Panel header="Place detail" key="1">
-            <PlaceDetailInfo placeDetailData={placeDetailData}></PlaceDetailInfo>
+            <PlaceDetailInfo
+              placeDetailData={placeDetailData}
+            ></PlaceDetailInfo>
           </Panel>
           <Panel header="Timeline" key="2">
-            <Timeline eventsData={eventsData} />
+            <div>
+              <p>Filter :</p>
+              <RangePicker onChange={rangeOnChange} />
+              <Radio.Group defaultValue="all"  style={{marginLeft:'1rem'}} onChange={radioOnChange}>
+                <Radio.Button defaultChecked={true} value="all">All</Radio.Button>
+                <Radio.Button value="past">Past</Radio.Button>
+                <Radio.Button value="present">Present</Radio.Button>
+                <Radio.Button value="future">Future</Radio.Button>
+              </Radio.Group>
+            </div>
+
+            <Timeline eventsData={eventsData} isReverse={reverseState} />
           </Panel>
           <Panel header="Comments" key="3">
             <Comment commentsData={commentsData} />

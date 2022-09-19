@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import moment from "moment";
+import { ReactSession } from "react-client-session";
 import {
   Form,
   Input,
@@ -15,9 +16,11 @@ import {
   Checkbox,
   Upload,
   Tooltip,
+  message,
 } from "antd";
 import ImgCrop from "antd-img-crop";
 import { EditOutlined, CloseOutlined, CheckOutlined } from "@ant-design/icons";
+import { addOnePlaceToDraft } from "../helper/apiUtil";
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 
@@ -82,12 +85,31 @@ const App = (props) => {
   };
   const inputStyle = { color: "black" };
 
-  const updateEvent = () => {};
+  const updateEvent = () => {
+    const placeFieldsChange = placeForm.getFieldsValue();
+    const newPlaceData = {
+      ...placeFieldsChange,
+      img: imgBase64,
+    };
+    const editorId = ReactSession.get("id");
+    const currentTime = moment().format();
+    if (ReactSession.get("id")) {
+      addOnePlaceToDraft(newPlaceData, editorId, currentTime).then((res) => {
+        if (res.status === 200) {
+          setComponentDisabled(true);
+          setInputBorder(false);
+          message.info("Submit successfully! Please wait admin to audit");
+        } else {
+          message.warn("Submit failed");
+        }
+      });
+    }
+  };
 
   return (
-    <div style={{ width: "24rem", minWidth: "20rem", marginLeft: "12rem" }}>
+    <div style={{ width: "29rem", minWidth: "20rem", marginLeft: "12rem" }}>
       {componentDisabled ? (
-        <div style={{ marginLeft: "20rem" }}>
+        <div style={{ marginLeft: "25rem" }}>
           <Tooltip title="Edit">
             <Button
               shape="circle"
@@ -104,7 +126,7 @@ const App = (props) => {
           </Tooltip>
         </div>
       ) : (
-        <div style={{ display: "flex", gap: "0.5rem", marginLeft: "20rem" }}>
+        <div style={{ display: "flex", gap: "0.5rem", marginLeft: "22rem" }}>
           <Tooltip title="Update">
             <Button
               shape="circle"

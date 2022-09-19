@@ -71,7 +71,7 @@ const convertcomments = (comments, actions) => {
   }
   const sortedComments = commentsList.sort((a, b) => b.datetime - a.datetime);
   sortedComments.forEach((comment) => { 
-    comment.datetime=<Tooltip title={moment(comment.datetime.getTime()).fromNow()}>
+    comment.datetime=<Tooltip title={moment(comment.datetime).fromNow()}>
     <span>{comment.datetime.toUTCString()}</span>
   </Tooltip>
    })
@@ -82,7 +82,7 @@ const convertcomments = (comments, actions) => {
 };
 
 const AddComment = (props) => {
-  const currentTime = new Date().toLocaleString() + "";
+  const currentTime = moment().format();
 
   const like = () => {
     setLikes(1);

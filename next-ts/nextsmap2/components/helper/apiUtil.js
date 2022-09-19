@@ -1,7 +1,7 @@
 import axios from "axios";
 export async function getAllPlaces() {
   const response = await axios.get(
-    "https://nextjs-dummydb-61545-default-rtdb.firebaseio.com/marks.json"
+    "https://wikimapia-54a96-default-rtdb.firebaseio.com/places.json"
   );
   const placeData = [];
   for (const key in response.data) {
@@ -28,7 +28,7 @@ export async function getPlusCode(position) {
 
 export async function addOneMissingPlace(place) {
   const url =
-    "https://nextjs-dummydb-61545-default-rtdb.firebaseio.com/marks.json";
+    "https://wikimapia-54a96-default-rtdb.firebaseio.com/places.json";
   const response = await axios({
     method: "post",
     url: url,
@@ -45,7 +45,7 @@ export async function getOneUpperPlaces(id) {
 // Comment api---------------------------------------------------------
 
 export async function getOnePlaceAllComments(placeId) {
-  const url = `https://nextjs-dummydb-61545-default-rtdb.firebaseio.com/marks/${placeId}/comments.json`;
+  const url = `https://wikimapia-54a96-default-rtdb.firebaseio.com/places/${placeId}/comments.json`;
   const response = await axios({
     method:'get',
     url: url,
@@ -54,7 +54,7 @@ export async function getOnePlaceAllComments(placeId) {
 }
 
 export async function addComment(placeId, comment) {
-  const url = `https://nextjs-dummydb-61545-default-rtdb.firebaseio.com/marks/${placeId}/comments.json`;
+  const url = `https://wikimapia-54a96-default-rtdb.firebaseio.com/places/${placeId}/comments.json`;
   const response = await axios({
     method: "post",
     url: url,
@@ -65,7 +65,7 @@ export async function addComment(placeId, comment) {
 
 //  event api-----------------------------------------------------------------
 export async function getOnePlaceEventsByPlaceId(placeId) {
-  const url = `https://nextjs-dummydb-61545-default-rtdb.firebaseio.com/marks/${placeId}/events`;
+  const url = `https://wikimapia-54a96-default-rtdb.firebaseio.com/places/${placeId}/events`;
   const response = await axios({
     method:'get',
     url: url,
@@ -74,7 +74,7 @@ export async function getOnePlaceEventsByPlaceId(placeId) {
 }
 
 export async function addOneEventToDraft(event, placeId, editorId,currentTime) {
-  const url = `https://nextjs-dummydb-61545-default-rtdb.firebaseio.com/draft.json`;
+  const url = `https://wikimapia-54a96-default-rtdb.firebaseio.com/eventDraft.json`;
   const eventData = {
     placeId: placeId,
     editorId: editorId,
@@ -88,3 +88,19 @@ export async function addOneEventToDraft(event, placeId, editorId,currentTime) {
   });
   return response;
 }
+
+export async function addOnePlaceToDraft(place,editorId,currentTime) {
+  const url = `https://wikimapia-54a96-default-rtdb.firebaseio.com/placeDraft.json`;
+  const placeData = {
+    editorId: editorId,
+    place: place,
+    editedTime:currentTime
+  };
+  const response = await axios({
+    method: "post",
+    url: url,
+    data: JSON.stringify(placeData),
+  });
+  return response;
+}
+

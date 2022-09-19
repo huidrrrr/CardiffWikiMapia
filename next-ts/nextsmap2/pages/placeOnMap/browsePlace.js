@@ -16,12 +16,7 @@ export default function BrowsePlace(props) {
   });
 
   if (!isLoaded) return <div>Loading...</div>;
-  // response.then((res) => {
-  //   setPlaceData(res);
-  // });
-  // if (!placeData) {
-  //   return <p>Loading map...</p>;
-  // }
+
 
   return <Map places={places} />;
 }

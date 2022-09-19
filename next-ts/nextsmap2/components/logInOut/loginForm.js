@@ -10,7 +10,7 @@ const App = () => {
     getUserById(values.username).then((res) => {
       if (res.status === 200) {
         if (res.data) {
-          if (res.data.password === values.password) {
+          if (res.data.password = values.password) {
             ReactSession.set("username", res.data.username);
             ReactSession.set("id", values.username);
             ReactSession.set("permission", res.data.permission);

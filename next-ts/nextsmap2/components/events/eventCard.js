@@ -7,7 +7,9 @@ import {
   Input,
   Upload,
   message,
+  DatePicker
 } from "antd";
+import moment from "moment";
 import React, { useState, useEffect } from "react";
 import { ReactSession } from "react-client-session";
 import ImgCrop from "antd-img-crop";
@@ -37,7 +39,7 @@ const App = (props) => {
   // eventForm state----------------------------------------------
   const eventFormInitialData = {
     name: event.name,
-    date:event.date?event.date.toDateString():null,
+    date:event.date?event.date.toUTCString():null,
     subtitle: event.subtitle,
     content: event.content,
     upperName: event.upperName,
@@ -148,7 +150,14 @@ const App = (props) => {
             <Input bordered={inputBorder} style={inputStyle} />
           </Form.Item>
           <Form.Item label="Date" name="date">
-            <Input bordered={inputBorder} style={inputStyle} />
+          {!componentDisabled ? (
+            <DatePicker
+              // defaultValue={moment(placeDetailData.uploadDate)}
+              bordered={inputBorder}
+            />
+          ) : (
+            <Input bordered={inputBorder} style={{ color: "black" }} />
+          )}
           </Form.Item>
           <Form.Item label="Subtitle" name="subtitle">
             <Input bordered={inputBorder} style={inputStyle} />
@@ -211,6 +220,10 @@ const App = (props) => {
                   <Button
                     shape="circle"
                     onClick={() => {
+                      eventForm.setFieldValue(
+                        "date",
+                        moment(event.uploadDate)
+                      );
                       setComponentDisabled(false);
                       setInputBorder(true);
                     }}
@@ -231,6 +244,7 @@ const App = (props) => {
                     <Button
                       shape="circle"
                       onClick={() => {
+                        eventForm.setFieldValue("date", event.date.toUTCString());
                         setComponentDisabled(true);
                         setInputBorder(false);
                       }}

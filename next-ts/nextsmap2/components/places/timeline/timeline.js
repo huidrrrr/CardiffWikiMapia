@@ -11,24 +11,20 @@ const App = (props) => {
   if (!events) {
     return <div>No events yet</div>;
   }
-  events.forEach((event) => {
-    event.date = new Date(event.date);
-  });
 
-  const sortedEvents = events.sort((a, b) => a.date - b.date);
 
   return (
     <div>
       
       <Timeline mode="alternate" pending={<AddEventCard placeId={placeId} />} reverse={true}>
-        {sortedEvents.map((event) => (
+        {events.map((event) => (
           <Timeline.Item
             key={event.id}
             label={event.date.toDateString()}
             color={
-              event.date.getDate() === currentTime.getDate()
+              event.date.getTime() === currentTime.getTime()
                 ? "green"
-                : event.date.getDate() > currentTime.getDate()
+                : event.date.getTime() > currentTime.getTime()
                 ? "blue"
                 : "gray"
             }

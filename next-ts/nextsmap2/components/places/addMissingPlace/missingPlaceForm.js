@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Form, Input, Button, Select, message, Upload } from "antd";
 import ImgCrop from "antd-img-crop";
-import { addOneMissingPlace, getPlusCode } from "../../helper/apiUtil";
+import { addOneMissingPlace, getAllPlaces, getPlusCode } from "../../helper/apiUtil";
 import { ReactSession } from "react-client-session";
+import moment from "moment";
 const { TextArea } = Input;
 export default function MissingPlaceForm(props) {
   // image base64-------------------------------
@@ -11,7 +12,7 @@ export default function MissingPlaceForm(props) {
   // pluscode--------------------------------------
   const [plusCode, setPlusCode] = useState();
   const { position } = props;
-  const currentTime = new Date();
+  const currentTime = moment().format();
   getPlusCode(position).then((res) => {
     setPlusCode(res);
   });
@@ -50,28 +51,40 @@ export default function MissingPlaceForm(props) {
   };
   // upload a missing place--------------------------------
   const onFinish = (values) => {
-    const { name, description, category } = values;
-    const newPlace = {
-      name: name,
-      category: category,
-      description: description,
-      position: {
-        lat: position.lat,
-        lng: position.lng,
-      },
-      plusCode: plusCode,
-      img: imgBase64,
-      events: {},
-      comments: {},
-      date:currentTime.toDateString(),
-      upperId:ReactSession.get("id")
-      
-    };
-    addOneMissingPlace(newPlace).then((res) => {
-      if (res.status === 200) {
-        message.info("Add place successfully!");
-      }
-    });
+    if(!ReactSession.get("id")){
+      message.warn('Please log in!')
+    }else{
+      const { name, description, category } = values;
+      const newPlace = {
+        name: name,
+        category: category,
+        description: description,
+        position: {
+          lat: position.lat,
+          lng: position.lng,
+        },
+        plusCode: plusCode,
+        img: imgBase64,
+        events: {},
+        comments: {},
+        date:currentTime,
+        upperId:ReactSession.get("id")
+        
+      };
+      addOneMissingPlace(newPlace).then((res) => {
+        if (res.status === 200) {
+          message.info("Add place successfully!");
+          getAllPlaces().then((res) => {
+            
+          props.refreshPage(res.data)
+           })
+        }else{
+          message.warn("Add place failed")
+        }
+      });
+    }
+
+
   };
 
   return (
