@@ -27,8 +27,7 @@ export async function getPlusCode(position) {
 }
 
 export async function addOneMissingPlace(place) {
-  const url =
-    "https://wikimapia-54a96-default-rtdb.firebaseio.com/places.json";
+  const url = "https://wikimapia-54a96-default-rtdb.firebaseio.com/places.json";
   const response = await axios({
     method: "post",
     url: url,
@@ -47,7 +46,7 @@ export async function getOneUpperPlaces(id) {
 export async function getOnePlaceAllComments(placeId) {
   const url = `https://wikimapia-54a96-default-rtdb.firebaseio.com/places/${placeId}/comments.json`;
   const response = await axios({
-    method:'get',
+    method: "get",
     url: url,
   });
   return response;
@@ -65,21 +64,39 @@ export async function addComment(placeId, comment) {
 
 //  event api-----------------------------------------------------------------
 export async function getOnePlaceEventsByPlaceId(placeId) {
-  const url = `https://wikimapia-54a96-default-rtdb.firebaseio.com/places/${placeId}/events`;
+  const url = `https://wikimapia-54a96-default-rtdb.firebaseio.com/places/${placeId}/events.json`;
   const response = await axios({
-    method:'get',
+    method: "get",
     url: url,
   });
   return response;
 }
+export async function addOneEvent(placeId, eventData) {
+  const url = `https://wikimapia-54a96-default-rtdb.firebaseio.com/places/${placeId}/events.json`;
 
-export async function addOneEventToDraft(event, placeId, editorId,currentTime) {
+  const response = await axios({
+    method: "post",
+    url: url,
+    data: JSON.stringify(eventData),
+  });
+  return response;
+}
+
+export async function addOneEventToDraft(
+  event,
+  placeId,
+  eventId,
+  editorId,
+  currentTime
+) {
   const url = `https://wikimapia-54a96-default-rtdb.firebaseio.com/eventDraft.json`;
   const eventData = {
+    eventId:eventId,
     placeId: placeId,
     editorId: editorId,
     event: event,
-    editedTime:currentTime
+    editedTime: currentTime,
+    state:'auditing'
   };
   const response = await axios({
     method: "post",
@@ -89,12 +106,13 @@ export async function addOneEventToDraft(event, placeId, editorId,currentTime) {
   return response;
 }
 
-export async function addOnePlaceToDraft(place,editorId,currentTime) {
+export async function addOnePlaceToDraft(place, editorId, currentTime) {
   const url = `https://wikimapia-54a96-default-rtdb.firebaseio.com/placeDraft.json`;
   const placeData = {
     editorId: editorId,
     place: place,
-    editedTime:currentTime
+    editedTime: currentTime,
+    state: "auditing",
   };
   const response = await axios({
     method: "post",
@@ -104,3 +122,71 @@ export async function addOnePlaceToDraft(place,editorId,currentTime) {
   return response;
 }
 
+export async function getAllDraftPlace() {
+  const url = `https://wikimapia-54a96-default-rtdb.firebaseio.com/placeDraft.json`;
+  const response = await axios({
+    method: "get",
+    url: url,
+  });
+  const placeDraftData = [];
+  for (const key in response.data) {
+    placeDraftData.push({
+      id: key,
+      ...response.data[key],
+    });
+  }
+  return placeDraftData;
+}
+export async function updatePlaceInfoById(id, newData) {
+  const url = `https://wikimapia-54a96-default-rtdb.firebaseio.com/places/${id}.json`;
+  const response = await axios({
+    method: "patch",
+    url: url,
+    data: newData,
+  });
+  return response;
+}
+
+export async function deletePlaceInfoById(id) {
+  const url = `https://wikimapia-54a96-default-rtdb.firebaseio.com/places/${id}.json`;
+  const response = await axios({
+    method: "delete",
+    url: url,
+  });
+  return response;
+}
+
+export async function updatePlaceDraftById(id, newState) {
+  const url = `https://wikimapia-54a96-default-rtdb.firebaseio.com/placeDraft/${id}.json`;
+  const response = await axios({
+    method: "patch",
+    url: url,
+    data: newState,
+  });
+  return response;
+}
+
+export async function getAllPlaceDraftById(id) {
+  const url = `https://wikimapia-54a96-default-rtdb.firebaseio.com/placeDraft/${id}.json`;
+  const response = await axios({
+    method: "get",
+    url: url,
+  });
+  return response;
+}
+
+export async function getAllDraftEvents() {
+  const url = `https://wikimapia-54a96-default-rtdb.firebaseio.com/eventDraft.json`;
+  const response = await axios({
+    method: "get",
+    url: url,
+  });
+  const placeDraftData = [];
+  for (const key in response.data) {
+    placeDraftData.push({
+      id: key,
+      ...response.data[key],
+    });
+  }
+  return placeDraftData;
+}

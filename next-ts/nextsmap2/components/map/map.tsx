@@ -44,7 +44,7 @@ export default function Map(props: any) {
         lng: position.coords.longitude,
       };
       setCenter(currentCenter);
-      setOffice(currentCenter)
+      setOffice(currentCenter);
     });
   }, []);
   const options = useMemo<MapOptions>(
@@ -110,10 +110,9 @@ export default function Map(props: any) {
     mapRef.current?.panTo(center);
   };
 
-
-  const refreshPageHandler=(places:any)=>{
-    setPlaceData(places)
-  }
+  const refreshPageHandler = (places: any) => {
+    setPlaceData(places);
+  };
 
   return (
     <div className="container">
@@ -191,10 +190,6 @@ export default function Map(props: any) {
                   }
                 </MarkerClusterer>
               )}
-
-              <Circle center={office} radius={500} options={closeOptions} />
-              <Circle center={office} radius={1000} options={middleOptions} />
-              <Circle center={office} radius={1500} options={farOptions} />
             </>
           ) : (
             <>
@@ -232,9 +227,9 @@ export default function Map(props: any) {
                 </MarkerClusterer>
               )}
 
-              <Circle center={office} radius={500} options={closeOptions} />
+              {/* <Circle center={office} radius={500} options={closeOptions} />
               <Circle center={office} radius={1000} options={middleOptions} />
-              <Circle center={office} radius={1500} options={farOptions} />
+              <Circle center={office} radius={1500} options={farOptions} /> */}
             </>
           )}
           {destination && (
@@ -269,7 +264,7 @@ export default function Map(props: any) {
                 shape="circle"
               ></Button>
             </Tooltip>
-            <MissPlaceForm position={place} refreshPage={refreshPageHandler}/>
+            <MissPlaceForm position={place} refreshPage={refreshPageHandler} />
           </Drawer>
         </GoogleMap>
       </div>

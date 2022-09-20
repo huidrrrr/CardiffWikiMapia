@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { Form, Input, Button, Select, message, Upload } from "antd";
 import ImgCrop from "antd-img-crop";
-import { addOneMissingPlace, getAllPlaces, getPlusCode } from "../../helper/apiUtil";
+import {
+  addOneMissingPlace,
+  getAllPlaces,
+  getPlusCode,
+} from "../../helper/apiUtil";
 import { ReactSession } from "react-client-session";
 import moment from "moment";
 const { TextArea } = Input;
@@ -51,9 +55,9 @@ export default function MissingPlaceForm(props) {
   };
   // upload a missing place--------------------------------
   const onFinish = (values) => {
-    if(!ReactSession.get("id")){
-      message.warn('Please log in!')
-    }else{
+    if (!ReactSession.get("id")) {
+      message.warn("Please log in!");
+    } else {
       const { name, description, category } = values;
       const newPlace = {
         name: name,
@@ -67,24 +71,20 @@ export default function MissingPlaceForm(props) {
         img: imgBase64,
         events: {},
         comments: {},
-        date:currentTime,
-        upperId:ReactSession.get("id")
-        
+        date: currentTime,
+        upperId: ReactSession.get("id"),
       };
       addOneMissingPlace(newPlace).then((res) => {
         if (res.status === 200) {
           message.info("Add place successfully!");
           getAllPlaces().then((res) => {
-            
-          props.refreshPage(res.data)
-           })
-        }else{
-          message.warn("Add place failed")
+            props.refreshPage(res);
+          });
+        } else {
+          message.warn("Add place failed");
         }
       });
     }
-
-
   };
 
   return (

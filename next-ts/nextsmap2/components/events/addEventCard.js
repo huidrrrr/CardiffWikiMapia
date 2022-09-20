@@ -1,4 +1,4 @@
-import { Button, Card, Form, Input, Tooltip, Upload,DatePicker } from "antd";
+import { Button, Card, Form, Input, Tooltip, Upload,DatePicker, message } from "antd";
 import React, { useState } from "react";
 import ImgCrop from "antd-img-crop";
 import {
@@ -7,8 +7,11 @@ import {
   PlusOutlined,
   CheckOutlined,
 } from "@ant-design/icons";
+import { addOneEvent,getOnePlaceEventsByPlaceId } from "../helper/apiUtil";
+import { ReactSession } from "react-client-session";
 const { TextArea } = Input;
-const App = () => {
+const App = (props) => {
+  const {placeId}= props;
   const [contentVisibility, setContentVisibility] = useState(false);
   const [addEventForm] = Form.useForm();
   const [fileList, setFileList] = useState([
@@ -18,7 +21,37 @@ const App = () => {
   
 
   const addNewEvent = () => {
-    console.log(addEventForm.getFieldsValue());
+    const newEvent ={
+      ...addEventForm.getFieldsValue(),
+      img:imgBase64,
+      upperId:ReactSession.get('id'),
+      upperName:ReactSession.get('username')
+    }
+    addOneEvent(placeId,newEvent).then((res) => { 
+      if(res.status===200){
+        setContentVisibility(false)
+        message.info('Add event successfully')
+        getOnePlaceEventsByPlaceId(placeId).then((res) => { 
+          if (res.status===200) {
+            const eventsData = [];
+            for (const key in res.data) {
+              eventsData.push({
+                id: key,
+                ...res.data[key],
+              });
+            }
+            props.updateEventLst(eventsData)
+          }else{
+            message.warn('Update failed')
+          }
+         })
+      }else{
+        message.warn('Add event failed')
+      }
+
+     })
+  
+  
   };
 
   const inputStyle = {

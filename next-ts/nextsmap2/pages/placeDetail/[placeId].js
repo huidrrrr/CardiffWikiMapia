@@ -49,7 +49,7 @@ export default function PlaceDetailPage(props) {
     event.date = new Date(event.date);
   });
   const allSortEvents = eventsToSort.sort((a, b) => a.date - b.date);
-  const [eventsInRange,setEventsInRange]=useState(allSortEvents);
+  const [eventsInRange, setEventsInRange] = useState(allSortEvents);
   const [events, setEvents] = useState(eventsInRange);
 
   const placeDetailData = {
@@ -67,7 +67,6 @@ export default function PlaceDetailPage(props) {
     upperAvatar: upperData.avatar,
     uploadDate: place.date,
     placeId: place.id,
-    events: events,
   };
   const commentsData = {
     upperName: upperData.username,
@@ -100,44 +99,38 @@ export default function PlaceDetailPage(props) {
     if (dates) {
       const sortedEvents = events.filter(
         (event) =>
-          new Date(dates[0]).getTime() <= new Date(event.date).getTime() &&
-          new Date(dates[1]).getTime() >= new Date(event.date).getTime()
+          dates[0].diff(moment(event.date), "days") <= 0 &&
+          dates[1].diff(moment(event.date), "days") > 0
       );
       setEventsInRange(sortedEvents);
+      
     } else {
       setEventsInRange(allSortEvents);
     }
   };
-  const radioOnChange=(e)=>{
-    if(e.target.value==='all'){
-      setEvents(eventsInRange)
-    }else if(e.target.value==='past'){
+  const radioOnChange = (e) => {
+    if (e.target.value === "all") {
+      setEvents(eventsInRange);
+    } else if (e.target.value === "past") {
       const sortedEvents = eventsInRange.filter(
-        (event) =>
-          new Date(moment().format()).getTime() > new Date(event.date).getTime()
-          
+        (event) => moment(event.date).diff(moment().format(), "days") < 0
       );
-      setEvents(sortedEvents)
-    }else if(e.target.value==='future'){
+      setEvents(sortedEvents);
+    } else if (e.target.value === "future") {
       const sortedEvents = eventsInRange.filter(
-        (event) =>
-          new Date(moment().format()).getTime() < new Date(event.date).getTime()
-          
+        (event) => moment(event.date).diff(moment().format(), "days") > 0
       );
-      setEvents(sortedEvents)
-    }else if(e.target.value==='present'){
+      setEvents(sortedEvents);
+    } else if (e.target.value === "present") {
       const sortedEvents = eventsInRange.filter(
-        (event) =>
-          new Date(moment().format()).getTime() === new Date(event.date).getTime()
-          
+        (event) => moment(event.date).diff(moment().format(), "days") === 0
       );
-      setEvents(sortedEvents)
+      setEvents(sortedEvents);
     }
-  }
-  useEffect(() => { 
-    setEvents(eventsInRange)
-   },[eventsInRange])
-
+  };
+  useEffect(() => {
+    setEvents(eventsInRange);
+  }, [eventsInRange]);
 
   useEffect(() => {
     getUserById(place.upperId).then((res) => {
@@ -163,15 +156,21 @@ export default function PlaceDetailPage(props) {
             <div>
               <p>Filter :</p>
               <RangePicker onChange={rangeOnChange} />
-              <Radio.Group defaultValue="all"  style={{marginLeft:'1rem'}} onChange={radioOnChange}>
-                <Radio.Button defaultChecked={true} value="all">All</Radio.Button>
+              <Radio.Group
+                defaultValue="all"
+                style={{ marginLeft: "1rem" }}
+                onChange={radioOnChange}
+              >
+                <Radio.Button defaultChecked={true} value="all">
+                  All
+                </Radio.Button>
                 <Radio.Button value="past">Past</Radio.Button>
                 <Radio.Button value="present">Present</Radio.Button>
                 <Radio.Button value="future">Future</Radio.Button>
               </Radio.Group>
             </div>
 
-            <Timeline eventsData={eventsData} isReverse={reverseState} />
+            <Timeline eventsData={eventsData} events={events} isReverse={reverseState} />
           </Panel>
           <Panel header="Comments" key="3">
             <Comment commentsData={commentsData} />

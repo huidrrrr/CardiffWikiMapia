@@ -63,15 +63,11 @@ export default function PageLayout(props) {
           path = `/user/user`;
           Router.push(path);
         } else if (keyPath[0] === "logOut") {
-          const usernameIsValid = ReactSession.get("username");
-          if (!usernameIsValid) {
-            console.log("go login");
-            path = `/logInOut/login`;
-            Router.push(path);
-          } else {
-            path = `/logInOut/logout`;
-            Router.push(path);
-          }
+          ReactSession.set("username", "");
+          ReactSession.set("id", "");
+          ReactSession.set("permission", "");
+          path = `/`;
+          Router.push(path);
         }
 
         break;
@@ -138,7 +134,6 @@ export default function PageLayout(props) {
               padding: 24,
               margin: 0,
               minHeight: "51rem",
-              
             }}
           >
             {props.children}

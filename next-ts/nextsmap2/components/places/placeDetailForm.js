@@ -78,7 +78,7 @@ const App = (props) => {
   const eventFormInitialData = {
     name: placeDetailData.name,
     category: placeDetailData.category,
-    date: placeDetailData.uploadDate,
+    date: placeDetailData?moment(placeDetailData.uploadDate).format("MMM Do YYYY"):'',
     description: placeDetailData.description,
     content: placeDetailData.content,
     upperName: placeDetailData.upperName,
@@ -90,6 +90,7 @@ const App = (props) => {
     const newPlaceData = {
       ...placeFieldsChange,
       img: imgBase64,
+      placeId:placeDetailData.id
     };
     const editorId = ReactSession.get("id");
     const currentTime = moment().format();
@@ -98,11 +99,14 @@ const App = (props) => {
         if (res.status === 200) {
           setComponentDisabled(true);
           setInputBorder(false);
+          placeForm.setFieldsValue(eventFormInitialData)
           message.info("Submit successfully! Please wait admin to audit");
         } else {
           message.warn("Submit failed");
         }
       });
+    }else{
+      message.warn('Please login')
     }
   };
 
@@ -138,7 +142,7 @@ const App = (props) => {
             <Button
               shape="circle"
               onClick={() => {
-                placeForm.setFieldValue("date", placeDetailData.uploadDate);
+                placeForm.setFieldValue("date", moment(placeDetailData.uploadDate).format("MMM Do YYYY"));
                 setComponentDisabled(true);
                 setInputBorder(false);
               }}

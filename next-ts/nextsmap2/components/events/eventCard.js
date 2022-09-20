@@ -1,7 +1,6 @@
 import {
   Button,
   Card,
-  Image,
   Tooltip,
   Form,
   Input,
@@ -30,7 +29,7 @@ const tabList = [
   },
 ];
 
-const App = (props) => {
+const EventCard = (props) => {
   const [activeTabKey1, setActiveTabKey1] = useState("introduction");
 
   const [formValues, setFormValues] = useState([]);
@@ -39,7 +38,7 @@ const App = (props) => {
   // eventForm state----------------------------------------------
   const eventFormInitialData = {
     name: event.name,
-    date:event.date?event.date.toUTCString():null,
+    date:event.date?new Date(event.date).toUTCString():null,
     subtitle: event.subtitle,
     content: event.content,
     upperName: event.upperName,
@@ -188,9 +187,9 @@ const App = (props) => {
   };
 
   const updateEvent = () => {
-    const currentTime = new Date().toLocaleString() + "";
+    const currentTime = moment().format();
 
-    addOneEventToDraft(formValues, props.placeId, ReactSession.get("id"), currentTime).then(
+    addOneEventToDraft(formValues, props.placeId,props.event.id, ReactSession.get("id"), currentTime).then(
       (res) => {
         if (res.status === 200) {
           setComponentDisabled(true);
@@ -266,4 +265,4 @@ const App = (props) => {
   );
 };
 
-export default App;
+export default EventCard;

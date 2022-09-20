@@ -1,30 +1,42 @@
 import { SmileOutlined } from "@ant-design/icons";
 import { Timeline } from "antd";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import EventCard from "../../events/eventCard";
-import AddEventCard from '../../events/addEventCard'
-
+import AddEventCard from "../../events/addEventCard";
+import moment from "moment";
 const App = (props) => {
-  const { eventsData } = props;
-  const { placeId, events } = eventsData;
-  const currentTime = new Date();
+  const { eventsData, events } = props;
+  const { placeId } = eventsData;
+  const [eventsLst, setEventLst] = useState(events);
+
+  const currentTime = moment().format();
+  useEffect(() => {
+    setEventLst(events);
+  }, [events]);
   if (!events) {
     return <div>No events yet</div>;
   }
-
+  const updateEventLst = (events) => {
+    setEventLst(events);
+  };
 
   return (
     <div>
-      
-      <Timeline mode="alternate" pending={<AddEventCard placeId={placeId} />} reverse={true}>
-        {events.map((event) => (
+      <Timeline
+        mode="alternate"
+        pending={
+          <AddEventCard placeId={placeId} updateEventLst={updateEventLst} />
+        }
+        reverse={true}
+      >
+        {eventsLst.map((event) => (
           <Timeline.Item
             key={event.id}
-            label={event.date.toDateString()}
+            label={moment(event.date).format("MMMM Do YYYY")}
             color={
-              event.date.getTime() === currentTime.getTime()
+              moment(event.date).diff(currentTime, "days") === 0
                 ? "green"
-                : event.date.getTime() > currentTime.getTime()
+                : moment(event.date).diff(currentTime, "days") > 0
                 ? "blue"
                 : "gray"
             }
