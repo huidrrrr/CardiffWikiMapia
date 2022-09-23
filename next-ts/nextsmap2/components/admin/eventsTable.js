@@ -5,6 +5,9 @@ import {
   updatePlaceDraftById,
   getAllPlaceDraftById,
   getAllDraftPlace,
+  updateEventInfoById,
+  updateEventDraftById,
+  getAllDraftEvents
 } from "../helper/apiUtil";
 import moment from "moment";
 
@@ -37,6 +40,7 @@ const dataConvertor = (eventsLst) => {
   const resStrucEventLst = eventsLst.map((eventsDraft) => {
     return {
       key: eventsDraft.id,
+      placeId:eventsDraft.placeId,
       editedTime: eventsDraft.editedTime,
       editedTimeInMomentFormat: moment(eventsDraft.editedTime).format(
         "MMMM Do YYYY, h:mm:ss a"
@@ -46,7 +50,7 @@ const dataConvertor = (eventsLst) => {
         eventsDraft.state === "auditing" ? (
           <span>
             <Badge status="processing" />
-            processing
+            Processing
           </span>
         ) : eventsDraft.state === "rejected" ? (
           <span>
@@ -80,30 +84,31 @@ const PlaceTable = (props) => {
   const [data, setData] = useState(initialData);
 
   const auditChange = (record) => {
-    updatePlaceInfoById(record.placeId, {
-      name: record.placeName,
-      date: record.placeDate,
-      description: record.placeDescription,
-      category: record.placeCategory,
-    }).then((res) => {
-      if (res.status === 200) {
-        updatePlaceDraftById(record.key, { state: "audited" }).then((res) => {
-          if (res.status === 200) {
-            getAllDraftPlace().then((res) => {
+    console.log(record);
+    updateEventInfoById(record.placeId,record.eventId,{
+      content:record.eventContent,
+      date:record.eventDate,
+      name:record.eventName,
+      subtitle:record.eventSubtitle,
+    }).then((res) => { 
+      if(res.status===200){
+        updateEventDraftById(record.key,{state:'audited'}).then((res) => { 
+          if(res.status===200){
+            message.info('audit successfully')
+            getAllDraftEvents().then((res) => { 
               setData(dataConvertor(res));
               message.info("audit successfully");
-            });
+             })
           }
-        });
-      } else {
-        message.warn("audit failed");
+         })
       }
-    });
+     })
+
   };
   const rejectChange = (record) => {
-    updatePlaceDraftById(record.key, { state: "rejected" }).then((res) => {
+    updateEventDraftById(record.key, { state: "rejected" }).then((res) => {
       if (res.status === 200) {
-        getAllDraftPlace().then((res) => {
+        getAllDraftEvents().then((res) => {
           setData(dataConvertor(res));
           message.info("rejected successfully");
         });
@@ -117,10 +122,16 @@ const PlaceTable = (props) => {
       key: "key",
     },
     {
+      title: "Place id",
+      dataIndex: "placeId",
+      key: "placeId",
+    },
+    {
       title: "Event id",
       dataIndex: "eventId",
       key: "eventId",
     },
+    
     {
       title: "Editor id",
       dataIndex: "editorId",

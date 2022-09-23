@@ -190,3 +190,24 @@ export async function getAllDraftEvents() {
   }
   return placeDraftData;
 }
+
+
+export async function updateEventInfoById(placeId,eventId, newData) {
+  const url = `https://wikimapia-54a96-default-rtdb.firebaseio.com/places/${placeId}/events/${eventId}.json`;
+  const response = await axios({
+    method: "patch",
+    url: url,
+    data: newData,
+  });
+  return response;
+}
+
+export async function updateEventDraftById(id, newState) {
+  const url = `https://wikimapia-54a96-default-rtdb.firebaseio.com/eventDraft/${id}.json`;
+  const response = await axios({
+    method: "patch",
+    url: url,
+    data: newState,
+  });
+  return response;
+}

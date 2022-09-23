@@ -6,6 +6,7 @@ import {
   Popconfirm,
   Table,
   Typography,
+  Avatar
 } from "antd";
 import React, { useState } from "react";
 import {
@@ -49,11 +50,28 @@ const EditableCell = ({
   );
 };
 
+const convertor=(userLst) => { 
+   const convertedUserLst=userLst.map((user) => { 
+    const convertedUser = {
+      ...user,
+      img:<Avatar
+      size={"large"}
+      src={user.avatar}
+    />
+     }
+     return convertedUser
+
+    })
+
+    return convertedUserLst
+ }
 const AdminPanel = (props) => {
   // get data---------------------
   const { usersLst } = props;
+  
+  
   const [form] = Form.useForm();
-  const [data, setData] = useState(usersLst);
+  const [data, setData] = useState(convertor(usersLst));
   const [editingKey, setEditingKey] = useState("");
   const isEditing = (record) => record.key === editingKey;
 
@@ -115,6 +133,11 @@ const AdminPanel = (props) => {
 
   const columns = [
     {
+      title: "Avatar",
+      dataIndex: "img",
+      width: "5%",
+    },
+    {
       title: "id",
       dataIndex: "key",
       width: "5%",
@@ -123,35 +146,35 @@ const AdminPanel = (props) => {
     {
       title: "username",
       dataIndex: "username",
-      width: "19%",
+      width: "17%",
       editable: true,
     },
     {
       title: "password",
       dataIndex: "password",
-      width: "19%",
+      width: "17%",
       editable: true,
     },
     {
       title: "firstname",
       dataIndex: "firstname",
-      width: "19%",
+      width: "17%",
       editable: true,
     },
     {
       title: "surname",
       dataIndex: "surname",
-      width: "19%",
+      width: "17%",
       editable: true,
     },
     {
       title: "permission",
       dataIndex: "permission",
-      width: "19%",
+      width: "17%",
       editable: true,
     },
     {
-      title: "operation",
+      title: "Action",
       dataIndex: "operation",
       render: (_, record) => {
         const editable = isEditing(record);
