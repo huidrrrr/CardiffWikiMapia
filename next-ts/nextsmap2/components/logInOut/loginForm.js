@@ -4,6 +4,7 @@ import React from "react";
 import Router from "next/router";
 import { getUserById } from "../helper/userApiUtil";
 import { ReactSession } from "react-client-session";
+import Link from "next/link";
 
 const App = () => {
   const onFinish = (values) => {
@@ -79,12 +80,14 @@ const App = () => {
         {/* <Form.Item name="remember" valuePropName="checked" noStyle>
           <Checkbox>Remember me</Checkbox>
         </Form.Item> */}
-        <a style={{ float: "left", color: "#1890ff" }} href="">
+        <a style={{ float: "left", color: "#1890ff" }} href="/logInOut/forgetPassword">
           Forgot password
         </a>
-        <a href="" style={{ float: "right", color: "#1890ff" }}>
+        <div className="registerLink">
+        <Link href="/logInOut/register" >
           register now!
-        </a>
+        </Link>
+        </div>
       </Form.Item>
     </Form>
   );

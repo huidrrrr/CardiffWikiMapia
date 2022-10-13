@@ -28,6 +28,12 @@ export default function PlaceDetailPage(props) {
   // date filter state----------------------------------
   const [filterMode, setFilterMode] = useState("descent");
   const [reverseState, setReverseState] = useState(true);
+  const [libraries] = useState(["places"]);
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: "AIzaSyD0EITvU6aSQn9zF8fSXHQ5Dd0MjF5Q7aI",
+    libraries: libraries,
+  });
+
 
   const placeData = {
     id: place.id,
@@ -138,6 +144,7 @@ export default function PlaceDetailPage(props) {
     });
   }, []);
   if (!place) return <div>Loading...</div>;
+  if (!isLoaded) return <div>Loading...</div>;
 
   return (
     <div className={styles.content}>

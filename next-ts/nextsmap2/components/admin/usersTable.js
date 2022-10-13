@@ -68,8 +68,6 @@ const convertor=(userLst) => {
 const AdminPanel = (props) => {
   // get data---------------------
   const { usersLst } = props;
-  
-  
   const [form] = Form.useForm();
   const [data, setData] = useState(convertor(usersLst));
   const [editingKey, setEditingKey] = useState("");
@@ -99,8 +97,14 @@ const AdminPanel = (props) => {
         const item = newData[index];
         newData.splice(index, 1, { ...item, ...row });
 
-        delete newData.key;
-        updateUserById(editingKey, newData[index]).then((res) => {
+        const dataToDataBase = {
+          ...newData[index]
+        }
+        delete dataToDataBase.img;
+        console.log(newData[index]);
+        console.log(dataToDataBase);
+
+        updateUserById(editingKey, dataToDataBase).then((res) => {
           if (res.status === 200) {
             message.info("update successfully");
             setData(newData);
@@ -225,7 +229,7 @@ const AdminPanel = (props) => {
       ...col,
       onCell: (record) => ({
         record,
-        inputType: col.dataIndex === "password" ? "number" : "text",
+        inputType: "text",
         dataIndex: col.dataIndex,
         title: col.title,
         editing: isEditing(record),

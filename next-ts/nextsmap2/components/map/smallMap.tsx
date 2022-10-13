@@ -5,11 +5,7 @@ import { GoogleMap, Marker } from "@react-google-maps/api";
 
 type MapOptions = google.maps.MapOptions;
 export default function SmallMap(props: any) {
-  const [libraries] = useState(["places"]);
-  const { isLoaded } = useLoadScript({
-    googleMapsApiKey: "AIzaSyD0EITvU6aSQn9zF8fSXHQ5Dd0MjF5Q7aI",
-    libraries: libraries,
-  });
+
 
   let { position } = props;
 
@@ -26,7 +22,7 @@ export default function SmallMap(props: any) {
     minWidth: "20rem",
     height: "28rem",
   };
-  if (!isLoaded) return <div>Loading...</div>;
+
   return (
     <div style={{ flex: "4" }}>
       <GoogleMap
