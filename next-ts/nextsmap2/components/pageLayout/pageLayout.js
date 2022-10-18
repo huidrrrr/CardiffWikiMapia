@@ -33,7 +33,6 @@ const items1 = [
       null,
       [
         getItem("Home", "home"),
-        getItem("Profile", "profile"),
         getItem("Log out", "logOut"),
       ],
       "group"
@@ -44,7 +43,6 @@ const items1 = [
   ]),
   getItem("Places", "places", <UnorderedListOutlined />, [
     getItem("Browse all places", "placeList"),
-    getItem("Add Places", "addPlaceList"),
     getItem("Uploaded places", "historyPlaces"),
   ]),
 ];

@@ -1,23 +1,25 @@
 import React from "react";
-import Layout from "../../components/pageLayout/pageLayout";
+import { getAllPatchs } from "../../components/helper/apiUtil";
 import { ReactSession } from "react-client-session";
-import Test from '../../components/test'
-export default function User() {
-
+import PatchTimeline from "../../components/patchTimeline/patchTimeline";
+export default function User(props) {
+  const { patchs } = props;
+  console.log(patchs);
   return (
     <div>
-      <div>{ReactSession.get('username')}
+      <div>
+        <div>News</div>
       </div>
-      <Test/>
-
-      
-      </div>
+      <PatchTimeline patchs={patchs} />
+    </div>
   );
 }
-export async function getStaticProps(){
+export async function getStaticProps() {
+  const response = await getAllPatchs();
   return {
-    props:{
-      userType:'user'
-    }
-  }
+    props: {
+      patchs: response,
+      userType: "user",
+    },
+  };
 }

@@ -2,22 +2,24 @@ import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input, message } from "antd";
 import React from "react";
 import Router from "next/router";
-import { getUserById } from "../helper/userApiUtil";
+import { getUserById, getAllUsers } from "../helper/userApiUtil";
 import { ReactSession } from "react-client-session";
 import Link from "next/link";
 
 const App = () => {
   const onFinish = (values) => {
-    getUserById(values.username).then((res) => {
-      if (res.status === 200) {
-        if (res.data) {
-          if (res.data.password === values.password) {
-            ReactSession.set("username", res.data.username);
-            ReactSession.set("id", values.username);
-            ReactSession.set("permission", res.data.permission);
-            if (res.data.permission === "user") {
+    getAllUsers().then((res) => {
+      if (res) {
+        if (res.find((ele) => ele.email === values.email)) {
+          const userData = res.find((ele) => ele.email === values.email);
+          if (userData.passsword = values.password) {
+            ReactSession.set("username", userData.username);
+            ReactSession.set("id", userData.key);
+            ReactSession.set("permission", userData.permission);
+            console.log(userData);
+            if (userData.permission === "user") {
               Router.push("/user/user");
-            } else if (res.data.permission === "admin") {
+            } else if (userData.permission === "admin") {
               Router.push("/user/admin");
             }
           } else {
@@ -43,17 +45,17 @@ const App = () => {
       onFinish={onFinish}
     >
       <Form.Item
-        name="username"
+        name="email"
         rules={[
           {
             required: true,
-            message: "Please input your Username!",
+            message: "Please input your email!",
           },
         ]}
       >
         <Input
           prefix={<UserOutlined className="site-form-item-icon" />}
-          placeholder="Username"
+          placeholder="Email"
         />
       </Form.Item>
       <Form.Item
@@ -77,16 +79,14 @@ const App = () => {
         </Button>
       </Form.Item>
       <Form.Item>
-        {/* <Form.Item name="remember" valuePropName="checked" noStyle>
-          <Checkbox>Remember me</Checkbox>
-        </Form.Item> */}
-        <a style={{ float: "left", color: "#1890ff" }} href="/logInOut/forgetPassword">
+        <Link
+          style={{ float: "left", color: "#1890ff" }}
+          href="/logInOut/forgetPassword"
+        >
           Forgot password
-        </a>
-        <div className="registerLink">
-        <Link href="/logInOut/register" >
-          register now!
         </Link>
+        <div className="registerLink">
+          <Link href="/logInOut/register">register now!</Link>
         </div>
       </Form.Item>
     </Form>

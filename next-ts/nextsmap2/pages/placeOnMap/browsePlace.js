@@ -18,7 +18,7 @@ export default function BrowsePlace(props) {
   if (!isLoaded) return <div>Loading...</div>;
 
 
-  return <Map places={places} />;
+  return <Map places={places}  />;
 }
 
 export async function getStaticProps() {

@@ -85,7 +85,7 @@ const App = (props) => {
   };
   const inputStyle = { color: "black" };
 
-  const updateEvent = () => {
+  const updatePlace = () => {
     const placeFieldsChange = placeForm.getFieldsValue();
     const newPlaceData = {
       ...placeFieldsChange,
@@ -134,7 +134,7 @@ const App = (props) => {
           <Tooltip title="Update">
             <Button
               shape="circle"
-              onClick={updateEvent}
+              onClick={updatePlace}
               icon={<CheckOutlined />}
             ></Button>
           </Tooltip>

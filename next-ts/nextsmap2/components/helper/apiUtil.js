@@ -73,7 +73,6 @@ export async function getOnePlaceEventsByPlaceId(placeId) {
 }
 export async function addOneEvent(placeId, eventData) {
   const url = `https://wikimapia-54a96-default-rtdb.firebaseio.com/places/${placeId}/events.json`;
-
   const response = await axios({
     method: "post",
     url: url,
@@ -210,4 +209,20 @@ export async function updateEventDraftById(id, newState) {
     data: newState,
   });
   return response;
+}
+
+export async function getAllPatchs(){
+  const url =`https://wikimapia-54a96-default-rtdb.firebaseio.com/patchMessage.json`
+  const response = await axios({
+    method:'get',
+    url:url,
+  })
+  const patchLst = [];
+  for (const key in response.data) {
+    patchLst.push({
+      id: key,
+      ...response.data[key],
+    });
+  }
+  return patchLst
 }

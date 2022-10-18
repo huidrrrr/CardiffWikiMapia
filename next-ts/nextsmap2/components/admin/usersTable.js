@@ -66,6 +66,10 @@ const convertor=(userLst) => {
     return convertedUserLst
  }
 const AdminPanel = (props) => {
+  getAllUsers().then((res) => { 
+    console.log(res);
+   });
+  
   // get data---------------------
   const { usersLst } = props;
   const [form] = Form.useForm();
@@ -101,9 +105,6 @@ const AdminPanel = (props) => {
           ...newData[index]
         }
         delete dataToDataBase.img;
-        console.log(newData[index]);
-        console.log(dataToDataBase);
-
         updateUserById(editingKey, dataToDataBase).then((res) => {
           if (res.status === 200) {
             message.info("update successfully");
@@ -126,8 +127,9 @@ const AdminPanel = (props) => {
     deleteUserById(key).then((res) => {
       if(res.status===200){
         message.info('delete successfully')
+
         getAllUsers().then((res) => { 
-          setData(res)
+          setData(convertor(res))
          })
       }else{
         message.warn('delete failed')
