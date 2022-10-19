@@ -111,9 +111,9 @@ const App = (props) => {
   };
 
   return (
-    <div style={{ width: "29rem", minWidth: "20rem", marginLeft: "12rem" }}>
+    <div style={{ width: "33rem", minWidth: "20rem", marginLeft: "12rem" }}>
       {componentDisabled ? (
-        <div style={{ marginLeft: "25rem" }}>
+        <div style={{ marginLeft: "28rem" }}>
           <Tooltip title="Edit">
             <Button
               shape="circle"
@@ -130,7 +130,7 @@ const App = (props) => {
           </Tooltip>
         </div>
       ) : (
-        <div style={{ display: "flex", gap: "0.5rem", marginLeft: "22rem" }}>
+        <div style={{ display: "flex", gap: "0.5rem", marginLeft: "27rem" }}>
           <Tooltip title="Update">
             <Button
               shape="circle"
@@ -163,11 +163,11 @@ const App = (props) => {
         layout="horizontal"
         disabled={componentDisabled}
       >
-        <Form.Item label="Name" name="name">
+        <Form.Item label="Name" name="name" required>
           <Input bordered={inputBorder} style={{ color: "black" }} />
         </Form.Item>
 
-        <Form.Item label="Category" name="category">
+        <Form.Item label="Category" name="category" required>
           {!componentDisabled ? (
             <Select
               bordered={inputBorder}
@@ -187,7 +187,7 @@ const App = (props) => {
           )}
         </Form.Item>
 
-        <Form.Item label="Date" name="date">
+        <Form.Item label="Date" name="date" required>
           {!componentDisabled ? (
             <DatePicker
               // defaultValue={moment(placeDetailData.uploadDate)}
@@ -197,14 +197,14 @@ const App = (props) => {
             <Input bordered={inputBorder} style={{ color: "black" }} />
           )}
         </Form.Item>
-        <Form.Item label="Description" name="description">
+        <Form.Item label="Description" name="description" required>
           <TextArea
             rows={4}
             bordered={inputBorder}
             style={{ color: "black" }}
           />
         </Form.Item>
-        <Form.Item label="Upload" valuePropName="fileList">
+        <Form.Item label="Upload" valuePropName="fileList" required>
           <ImgCrop rotate>
             <Upload
               beforeUpload={() => false}

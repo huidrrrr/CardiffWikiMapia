@@ -112,7 +112,7 @@ export default function MissingPlaceForm(props) {
         >
           <Input />
         </Form.Item>
-        <Form.Item label="Category" name="category">
+        <Form.Item label="Category" name="category" required>
           <Select>
             <Select.Option value="shop">shop</Select.Option>
             <Select.Option value="restaurant">restaurant</Select.Option>
@@ -147,7 +147,7 @@ export default function MissingPlaceForm(props) {
         >
           <TextArea rows={4} />
         </Form.Item>
-        <Form.Item label="Image">
+        <Form.Item label="Image" required>
           <ImgCrop rotate>
             <Upload
               beforeUpload={() => false}

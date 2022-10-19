@@ -37,7 +37,6 @@ export default function ForgetPassword() {
           moment(formData.birthday).format("MMMM Do YYYY") &&
         res.surname === formData.surname
       ) {
-        console.log(res);
         const resetPasswordPage = (
           <div style={{ maxWidth: "45rem", margin: "10rem auto" }}>
             <Form

@@ -7,6 +7,9 @@ export default function User(props) {
   console.log(patchs);
   return (
     <div>
+      <div style={{marginBottom:'2rem',fontSize:'26px'}}>
+        {ReactSession.get('username')?<div>Hello! <span style={{color: "#1890ff"}}>{ReactSession.get('username')}</span></div>:<div>Sorry, you have sign out.</div>}
+      </div>
       <div>
         <div>News</div>
       </div>

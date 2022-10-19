@@ -145,10 +145,10 @@ const EventCard = (props) => {
           layout="horizontal"
           disabled={componentDisabled}
         >
-          <Form.Item label="Name" name="name">
+          <Form.Item label="Name" name="name" required>
             <Input bordered={inputBorder} style={inputStyle} />
           </Form.Item>
-          <Form.Item label="Date" name="date">
+          <Form.Item label="Date" name="date" required>
           {!componentDisabled ? (
             <DatePicker
               // defaultValue={moment(placeDetailData.uploadDate)}

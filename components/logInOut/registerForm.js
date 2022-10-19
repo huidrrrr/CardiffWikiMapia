@@ -125,34 +125,34 @@ export default function RegisterForm() {
         // onValuesChange={onFormLayoutChange}
         // disabled={componentDisabled}
       >
-        <Form.Item label="Username" name="username">
+        <Form.Item label="Username" name="username" required>
           <Input required />
         </Form.Item>
 
-        <Form.Item label="First name" name="firstname">
+        <Form.Item label="First name" name="firstname" required>
           <Input required />
         </Form.Item>
-        <Form.Item label="Surname" name="surname">
+        <Form.Item label="Surname" name="surname" required>
           <Input required />
         </Form.Item>
-        <Form.Item label="Email" name="email">
+        <Form.Item label="Email" name="email" required>
           <Input required />
         </Form.Item>
-        <Form.Item label="Password" name="password">
+        <Form.Item label="Password" name="password" required>
           <Input type="password" required />
         </Form.Item>
 
-        <Form.Item label="Confirm Password" name="confirmPassword">
+        <Form.Item label="Confirm Password" name="confirmPassword" required>
           <Input type="password" required />
         </Form.Item>
-        <Form.Item label="Sex" name="sex">
+        <Form.Item label="Sex" name="sex" required>
           <Radio.Group required>
             <Radio value="Male"> Male </Radio>
             <Radio value="Female"> Female </Radio>
           </Radio.Group>
         </Form.Item>
 
-        <Form.Item label="Birthday" name="birthday">
+        <Form.Item label="Birthday" name="birthday" required>
           <DatePicker required />
         </Form.Item>
 

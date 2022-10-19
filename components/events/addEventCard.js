@@ -142,10 +142,10 @@ const App = (props) => {
           }}
           layout="horizontal"
         >
-          <Form.Item label="Name" name="name">
+          <Form.Item label="Name" name="name" required>
             <Input style={inputStyle} />
           </Form.Item>
-          <Form.Item label="Date" name="date">
+          <Form.Item label="Date" name="date" required>
             <DatePicker />
           </Form.Item>
           <Form.Item label="Subtitle" name="subtitle">
